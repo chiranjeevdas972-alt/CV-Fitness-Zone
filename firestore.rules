@@ -1,0 +1,159 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 0. Global Safety Net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Helpers ---
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isVerified() {
+      return isSignedIn() && request.auth.token.email_verified == true;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    // Safely get user profile
+    function getUserProfile() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function hasProfile() {
+      return exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function isAdmin() {
+      return isVerified() && (
+        request.auth.token.email == "chiranjeevdas972@gmail.com" ||
+        (hasProfile() && (getUserProfile().role == 'admin' || getUserProfile().role == 'manager'))
+      );
+    }
+
+    function isTrainer() {
+      return isVerified() && hasProfile() && getUserProfile().role == 'trainer';
+    }
+
+    function isStaff() {
+      return isVerified() && hasProfile() && (getUserProfile().role == 'staff' || getUserProfile().role == 'trainer' || getUserProfile().role == 'manager' || getUserProfile().role == 'admin');
+    }
+
+    function isOwner(uid) {
+      return isVerified() && request.auth.uid == uid;
+    }
+
+    // Check if resource belongs to user's gym
+    function sameGym(data) {
+      return isVerified() && hasProfile() && data.gymId == getUserProfile().gymId;
+    }
+
+    // --- Entity Validations ---
+
+    function isValidUser(data) {
+      return data.uid == request.auth.uid &&
+             data.email == request.auth.token.email &&
+             data.role in ['admin', 'trainer', 'member', 'manager', 'staff'] &&
+             data.gymId is string &&
+             data.gymId.size() > 0 &&
+             data.keys().hasAll(['uid', 'email', 'role', 'gymId']);
+    }
+
+    function isValidMember(data) {
+      return data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+             data.gymId is string && data.gymId.size() > 0 &&
+             data.phone is string && data.phone.size() >= 10 &&
+             data.keys().hasAll(['name', 'phone', 'gymId']);
+    }
+
+    function isValidAnnouncement(data) {
+      return data.title is string && data.title.size() > 0 && data.title.size() <= 200 &&
+             data.content is string && data.content.size() > 0 && data.content.size() <= 2000 &&
+             data.gymId is string && data.gymId.size() > 0 &&
+             data.type in ['info', 'warning', 'success'];
+    }
+
+    function isValidInventory(data) {
+      return data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
+             data.quantity is number && data.quantity >= 0 &&
+             data.gymId is string && data.gymId.size() > 0 &&
+             data.status in ['Operational', 'Maintenance', 'Repair Needed'];
+    }
+
+    // --- Rules ---
+
+    match /users/{uid} {
+      allow get: if isOwner(uid) || isAdmin();
+      allow list: if isAdmin() && (resource == null || sameGym(resource.data));
+      allow create: if isOwner(uid) && isValidUser(incoming());
+      allow update: if (isOwner(uid) || isAdmin()) && 
+                    (isAdmin() || (isOwner(uid) && incoming().role == existing().role)) &&
+                    incoming().gymId == existing().gymId;
+    }
+
+    match /members/{memberId} {
+      allow get: if isAdmin() || isTrainer() || isOwner(existing().uid);
+      allow list: if (isAdmin() || isTrainer()) && sameGym(resource.data);
+      allow create: if isAdmin() && isValidMember(incoming());
+      allow update: if isAdmin() && isValidMember(incoming()) && 
+                    incoming().gymId == existing().gymId;
+      allow delete: if isAdmin();
+    }
+
+    match /trainers/{trainerId} {
+      allow read: if isVerified() && sameGym(resource.data);
+      allow write: if isAdmin();
+    }
+
+    match /plans/{planId} {
+      allow read: if isVerified() && sameGym(resource.data);
+      allow write: if isAdmin();
+    }
+
+    match /payments/{paymentId} {
+      allow read: if isAdmin() || (isVerified() && sameGym(resource.data) && (existing().memberId == request.auth.uid || existing().gymId == getUserProfile().gymId));
+      allow write: if isAdmin();
+    }
+
+    match /attendance/{attendanceId} {
+      allow read: if isAdmin() || isTrainer() || (isVerified() && sameGym(resource.data) && existing().memberId == request.auth.uid);
+      allow write: if isAdmin() || isTrainer();
+    }
+
+    match /batches/{batchId} {
+      allow read: if isVerified() && sameGym(resource.data);
+      allow write: if isAdmin();
+    }
+
+    match /settings/{gymId} {
+      allow read: if isVerified() && (sameGym(resource.data) || (isAdmin() && gymId == getUserProfile().gymId));
+      allow write: if isAdmin() && gymId == getUserProfile().gymId;
+    }
+
+    match /announcements/{id} {
+      allow get, list: if isVerified() && sameGym(resource.data);
+      allow create: if (isAdmin() || isTrainer()) && isValidAnnouncement(incoming());
+      allow update: if (isAdmin() || isTrainer()) && isValidAnnouncement(incoming()) && incoming().gymId == existing().gymId;
+      allow delete: if isAdmin();
+    }
+
+    match /inventory/{id} {
+      allow get, list: if isVerified() && sameGym(resource.data);
+      allow create: if isAdmin() && isValidInventory(incoming());
+      allow update: if isAdmin() && isValidInventory(incoming()) && incoming().gymId == existing().gymId;
+      allow delete: if isAdmin();
+    }
+  }
+}

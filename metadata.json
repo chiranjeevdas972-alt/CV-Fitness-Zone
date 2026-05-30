@@ -1,0 +1,6 @@
+{
+  "name": "CV Fitness Zone",
+  "description": "A professional SaaS fitness management platform for gym owners, trainers, and members. Commitment to Victory.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

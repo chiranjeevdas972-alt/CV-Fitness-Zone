@@ -1,0 +1,174 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile and role information",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "displayName": { "type": "string" },
+        "photoURL": { "type": "string" },
+        "role": { "type": "string", "enum": ["admin", "trainer", "member"] },
+        "gymId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Member": {
+      "title": "Member",
+      "description": "Gym member details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "age": { "type": "number" },
+        "weight": { "type": "number" },
+        "height": { "type": "number" },
+        "planId": { "type": "string" },
+        "planName": { "type": "string" },
+        "startDate": { "type": "string", "format": "date" },
+        "expiryDate": { "type": "string", "format": "date" },
+        "paymentStatus": { "type": "string", "enum": ["paid", "pending", "overdue"] },
+        "photoURL": { "type": "string" },
+        "batchId": { "type": "string" },
+        "trainerId": { "type": "string" },
+        "gymId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "phone", "gymId"]
+    },
+    "Trainer": {
+      "title": "Trainer",
+      "description": "Gym trainer details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string", "format": "email" },
+        "specialization": { "type": "string" },
+        "gymId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "gymId"]
+    },
+    "Plan": {
+      "title": "Plan",
+      "description": "Membership plan details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "price": { "type": "number" },
+        "durationMonths": { "type": "number" },
+        "features": { "type": "array", "items": { "type": "string" } },
+        "gymId": { "type": "string" }
+      },
+      "required": ["name", "price", "durationMonths", "gymId"]
+    },
+    "Payment": {
+      "title": "Payment",
+      "description": "Payment record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "memberId": { "type": "string" },
+        "memberName": { "type": "string" },
+        "amount": { "type": "number" },
+        "method": { "type": "string", "enum": ["cash", "upi", "online"] },
+        "date": { "type": "string", "format": "date" },
+        "gymId": { "type": "string" }
+      },
+      "required": ["memberId", "amount", "method", "date", "gymId"]
+    },
+    "Attendance": {
+      "title": "Attendance",
+      "description": "Daily attendance record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "memberId": { "type": "string" },
+        "memberName": { "type": "string" },
+        "date": { "type": "string", "format": "date" },
+        "time": { "type": "string" },
+        "gymId": { "type": "string" }
+      },
+      "required": ["memberId", "date", "gymId"]
+    },
+    "Batch": {
+      "title": "Batch",
+      "description": "Gym batch details",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "startTime": { "type": "string" },
+        "endTime": { "type": "string" },
+        "capacity": { "type": "number" },
+        "gymId": { "type": "string" }
+      },
+      "required": ["name", "startTime", "endTime", "gymId"]
+    },
+    "Settings": {
+      "title": "Settings",
+      "description": "Gym-wide settings",
+      "type": "object",
+      "properties": {
+        "gymName": { "type": "string" },
+        "logoURL": { "type": "string" },
+        "contactEmail": { "type": "string" },
+        "contactPhone": { "type": "string" },
+        "address": { "type": "string" },
+        "gymId": { "type": "string" }
+      },
+      "required": ["gymName", "gymId"]
+    },
+    "Announcement": {
+      "title": "Announcement",
+      "description": "Gym announcements",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "type": { "type": "string", "enum": ["info", "warning", "success"] },
+        "gymId": { "type": "string" },
+        "authorName": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["title", "content", "gymId"]
+    },
+    "Inventory": {
+      "title": "Inventory",
+      "description": "Gym inventory items",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "quantity": { "type": "number" },
+        "status": { "type": "string", "enum": ["Operational", "Maintenance", "Repair Needed"] },
+        "lastMaintenance": { "type": "string", "format": "date" },
+        "gymId": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "quantity", "gymId"]
+    }
+  },
+  "firestore": {
+    "/users/{uid}": { "schema": "User", "description": "User profiles" },
+    "/members/{memberId}": { "schema": "Member", "description": "Gym members" },
+    "/trainers/{trainerId}": { "schema": "Trainer", "description": "Gym trainers" },
+    "/plans/{planId}": { "schema": "Plan", "description": "Membership plans" },
+    "/payments/{paymentId}": { "schema": "Payment", "description": "Payment history" },
+    "/attendance/{attendanceId}": { "schema": "Attendance", "description": "Attendance logs" },
+    "/batches/{batchId}": { "schema": "Batch", "description": "Gym batches" },
+    "/settings/{gymId}": { "schema": "Settings", "description": "Gym settings" },
+    "/announcements/{id}": { "schema": "Announcement", "description": "Gym announcements" },
+    "/inventory/{id}": { "schema": "Inventory", "description": "Gym inventory" }
+  }
+}
