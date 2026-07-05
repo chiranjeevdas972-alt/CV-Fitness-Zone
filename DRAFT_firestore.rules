@@ -1,149 +1,227 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // 0. Global Safety Net
-    match /{document=**} {
-      allow read, write: if false;
-    }
-
     // --- Helpers ---
     function isSignedIn() {
       return request.auth != null;
     }
 
-    function isVerified() {
-      return isSignedIn() && request.auth.token.email_verified == true;
+    function isOwner(uid) {
+      return isSignedIn() && request.auth.uid == uid;
     }
 
-    function isValidId(id) {
-      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    function hasUserDoc() {
+      return isSignedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid));
     }
 
-    function incoming() {
-      return request.resource.data;
+    function isBypassUser() {
+      return isSignedIn() && (
+        request.auth.uid == "u6wzcrXtnFTQlJWLxyaZL4JR1pn2" ||
+        (request.auth.token != null && "email" in request.auth.token && request.auth.token.email == "chiranjeevdas972@gmail.com")
+      );
     }
 
-    function existing() {
-      return resource.data;
+    function isVerifiedUser() {
+      return isSignedIn() && (
+        isBypassUser() ||
+        (request.auth.token != null && "email_verified" in request.auth.token && request.auth.token.email_verified == true)
+      );
     }
 
-    function userDoc() {
-      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    function hasRole(role) {
+      return hasUserDoc() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('role', '') == role;
+    }
+
+    function hasGymId(gymId) {
+      return hasUserDoc() && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.get('gymId', '') == gymId;
     }
 
     function isAdmin() {
-      return isVerified() && (
-        userDoc().role == 'admin' || 
-        request.auth.token.email == "chiranjeevdas972@gmail.com"
+      return isSignedIn() && (
+        isBypassUser() ||
+        hasRole("admin") ||
+        hasRole("manager")
       );
     }
 
     function isTrainer() {
-      return isVerified() && userDoc().role == 'trainer';
+      return isSignedIn() && (
+        isBypassUser() ||
+        hasRole("trainer") ||
+        hasRole("admin") ||
+        hasRole("manager")
+      );
     }
 
-    function isOwner(uid) {
-      return isVerified() && request.auth.uid == uid;
+    function isStaff() {
+      return isSignedIn() && (
+        isBypassUser() ||
+        hasRole("staff") ||
+        hasRole("trainer") ||
+        hasRole("manager") ||
+        hasRole("admin")
+      );
     }
 
-    function sameGym(data) {
-      return isVerified() && data.gymId == userDoc().gymId;
+    function sameGym(gymId) {
+      return isSignedIn() && (
+        isBypassUser() ||
+        hasGymId(gymId)
+      );
     }
 
     // --- Entity Validations ---
 
     function isValidUser(data) {
-      return data.uid == request.auth.uid &&
-             data.email == request.auth.token.email &&
-             data.role in ['admin', 'trainer', 'member'] &&
-             data.gymId is string &&
-             data.gymId.size() > 0 &&
-             data.keys().hasAll(['uid', 'email', 'role', 'gymId']);
+      return data != null &&
+             data.get('uid', '') == request.auth.uid &&
+             data.get('role', '') is string &&
+             data.get('gymId', '') is string &&
+             data.get('gymId', '').size() > 0;
     }
 
     function isValidMember(data) {
-      return data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
-             data.gymId is string && data.gymId.size() > 0 &&
-             data.phone is string && data.phone.size() >= 10 &&
-             data.keys().hasAll(['name', 'phone', 'gymId']);
+      return data != null &&
+             data.get('name', '') is string && data.get('name', '').size() > 0 &&
+             data.get('gymId', '') is string && data.get('gymId', '').size() > 0;
     }
 
     function isValidAnnouncement(data) {
-      return data.title is string && data.title.size() > 0 && data.title.size() <= 200 &&
-             data.content is string && data.content.size() > 0 && data.content.size() <= 2000 &&
-             data.gymId is string && data.gymId.size() > 0 &&
-             data.type in ['info', 'warning', 'success'];
-    }
-
-    function isValidInventory(data) {
-      return data.name is string && data.name.size() > 0 && data.name.size() <= 100 &&
-             data.quantity is number && data.quantity >= 0 &&
-             data.gymId is string && data.gymId.size() > 0 &&
-             data.status in ['Operational', 'Maintenance', 'Repair Needed'];
+      return data != null &&
+             data.get('title', '') is string && data.get('title', '').size() > 0 &&
+             data.get('gymId', '') is string && data.get('gymId', '').size() > 0;
     }
 
     // --- Rules ---
 
     match /users/{uid} {
-      allow get: if isOwner(uid) || isAdmin();
+      allow read, write: if isBypassUser();
+      allow get, write: if isOwner(uid);
       allow list: if isAdmin();
-      allow create: if isOwner(uid) && isValidUser(incoming());
-      allow update: if (isOwner(uid) || isAdmin()) && 
-                    incoming().role == existing().role && // Prevent self-promotion
-                    incoming().gymId == existing().gymId;
     }
 
     match /members/{memberId} {
-      allow get: if isAdmin() || isTrainer() || isOwner(existing().uid);
-      allow list: if (isAdmin() || isTrainer()) && sameGym(resource.data);
-      allow create: if isAdmin() && isValidMember(incoming());
-      allow update: if isAdmin() && isValidMember(incoming()) && 
-                    incoming().gymId == existing().gymId;
-      allow delete: if isAdmin();
+      allow read, write: if isBypassUser();
+      allow get: if isAdmin() || isTrainer() || (resource != null && isOwner(resource.data.get('uid', '')));
+      allow list: if (isAdmin() || isTrainer()) && (resource != null && sameGym(resource.data.get('gymId', '')));
+      allow create: if isVerifiedUser() && (isAdmin() || isTrainer()) && isValidMember(request.resource.data);
+      allow update: if isVerifiedUser() && (isAdmin() || isTrainer()) && isValidMember(request.resource.data) && 
+                    request.resource.data.get('gymId', '') == resource.data.get('gymId', '');
+      allow delete: if isVerifiedUser() && isAdmin();
     }
 
     match /trainers/{trainerId} {
-      allow read: if sameGym(resource.data);
-      allow write: if isAdmin();
+      allow read, write: if isBypassUser();
+      allow get, list: if isSignedIn();
+      allow write: if isVerifiedUser() && isAdmin();
     }
 
     match /plans/{planId} {
-      allow read: if sameGym(resource.data);
-      allow write: if isAdmin();
+      allow read, write: if isBypassUser();
+      allow get, list: if isSignedIn();
+      allow write: if isVerifiedUser() && isAdmin();
     }
 
     match /payments/{paymentId} {
-      allow read: if isAdmin() || (isVerified() && sameGym(resource.data) && existing().memberId == request.auth.uid);
-      allow write: if isAdmin();
+      allow read, write: if isBypassUser();
+      allow get, list: if isAdmin() || isTrainer() || (resource != null && sameGym(resource.data.get('gymId', '')));
+      allow write: if isVerifiedUser() && (isAdmin() || isTrainer());
     }
 
     match /attendance/{attendanceId} {
-      allow read: if isAdmin() || isTrainer() || (isVerified() && sameGym(resource.data) && existing().memberId == request.auth.uid);
-      allow write: if isAdmin() || isTrainer();
+      allow read, write: if isBypassUser();
+      allow get, list: if isAdmin() || isTrainer() || (resource != null && sameGym(resource.data.get('gymId', '')));
+      allow create, update: if isVerifiedUser() && (isAdmin() || isTrainer());
+      allow delete: if isVerifiedUser() && isAdmin();
     }
 
     match /batches/{batchId} {
-      allow read: if sameGym(resource.data);
-      allow write: if isAdmin();
+      allow read, write: if isBypassUser();
+      allow get, list: if isSignedIn();
+      allow write: if isVerifiedUser() && isAdmin();
     }
 
     match /settings/{gymId} {
-      allow read: if sameGym(resource.data) || isAdmin();
-      allow write: if isAdmin();
+      allow read, write: if isBypassUser();
+      allow get: if isSignedIn();
+      allow write: if isVerifiedUser() && isAdmin();
     }
 
     match /announcements/{id} {
-      allow get, list: if sameGym(resource.data);
-      allow create: if (isAdmin() || isTrainer()) && isValidAnnouncement(incoming());
-      allow update: if (isAdmin() || isTrainer()) && isValidAnnouncement(incoming());
-      allow delete: if isAdmin();
+      allow read, write: if isBypassUser();
+      allow get, list: if isSignedIn();
+      allow create, update: if isVerifiedUser() && (isAdmin() || isTrainer()) && isValidAnnouncement(request.resource.data);
+      allow delete: if isVerifiedUser() && isAdmin();
     }
 
     match /inventory/{id} {
-      allow get, list: if sameGym(resource.data);
-      allow create: if isAdmin() && isValidInventory(incoming());
-      allow update: if isAdmin() && isValidInventory(incoming());
+      allow read, write: if isBypassUser();
+      allow get, list: if isSignedIn();
+      allow create, update: if isVerifiedUser() && isAdmin() && (id is string && id.size() > 0);
+      allow delete: if isVerifiedUser() && isAdmin();
+    }
+
+    match /inquiries/{id} {
+      allow create: if true;
+      allow read, update, delete: if isBypassUser() || isAdmin() || isStaff();
+    }
+
+    // Interactive/Auxiliary collections
+    match /assigned_workouts/{id} {
+      allow read, write: if isBypassUser();
+      allow get, list: if isAdmin() || isTrainer() || (resource != null && sameGym(resource.data.get('gymId', '')));
+      allow create, update: if isVerifiedUser() && (isAdmin() || isTrainer());
+      allow delete: if isVerifiedUser() && isAdmin();
+    }
+
+    match /classes/{id} {
+      allow read, write: if isBypassUser();
+      allow get, list: if isSignedIn();
+      allow create, update: if isVerifiedUser() && (isAdmin() || isTrainer());
+      allow delete: if isVerifiedUser() && isAdmin();
+    }
+
+    match /workout_templates/{id} {
+      allow read, write: if isBypassUser();
+      allow get, list: if isSignedIn();
+      allow create, update: if isVerifiedUser() && (isAdmin() || isTrainer());
+      allow delete: if isVerifiedUser() && isAdmin();
+    }
+
+    match /crmLeads/{id} {
+      allow read, write: if isBypassUser();
+      allow get, list: if isAdmin() || isStaff();
+      allow create, update: if isAdmin() || isStaff();
       allow delete: if isAdmin();
+    }
+
+    match /crmFollowups/{id} {
+      allow read, write: if isBypassUser();
+      allow get, list: if isAdmin() || isStaff();
+      allow create, update: if isAdmin() || isStaff();
+      allow delete: if isAdmin();
+    }
+
+    match /crmActivities/{id} {
+      allow read, write: if isBypassUser();
+      allow get, list: if isAdmin() || isStaff();
+      allow create, update: if isAdmin() || isStaff();
+      allow delete: if isAdmin();
+    }
+
+    match /memberRetention/{id} {
+      allow read, write: if isBypassUser();
+      allow get, list: if isAdmin() || isStaff();
+      allow create, update: if isAdmin() || isStaff();
+      allow delete: if isAdmin();
+    }
+
+    match /notifications/{id} {
+      allow read, write: if isBypassUser() || isSignedIn();
+    }
+
+    match /contactMessages/{id} {
+      allow read, write: if isBypassUser() || isAdmin() || isStaff() || true;
     }
   }
 }

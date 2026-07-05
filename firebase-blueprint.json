@@ -9,7 +9,7 @@
         "email": { "type": "string", "format": "email" },
         "displayName": { "type": "string" },
         "photoURL": { "type": "string" },
-        "role": { "type": "string", "enum": ["admin", "trainer", "member"] },
+        "role": { "type": "string", "enum": ["admin", "trainer", "member", "manager", "staff"] },
         "gymId": { "type": "string" },
         "createdAt": { "type": "string", "format": "date-time" }
       },
@@ -157,6 +157,69 @@
         "updatedAt": { "type": "string", "format": "date-time" }
       },
       "required": ["name", "quantity", "gymId"]
+    },
+    "AssignedWorkout": {
+      "title": "AssignedWorkout",
+      "description": "Assigned member routine plans",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "memberId": { "type": "string" },
+        "memberName": { "type": "string" },
+        "routineName": { "type": "string" },
+        "notes": { "type": "string" },
+        "exercises": { "type": "array" },
+        "assignedBy": { "type": "string" },
+        "gymId": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["memberId", "gymId"]
+    },
+    "Class": {
+      "title": "Class",
+      "description": "Group fitness classes scheduled",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "time": { "type": "string" },
+        "days": { "type": "string" },
+        "trainerName": { "type": "string" },
+        "room": { "type": "string" },
+        "capacity": { "type": "number" },
+        "gymId": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name", "gymId"]
+    },
+    "WorkoutTemplate": {
+      "title": "WorkoutTemplate",
+      "description": "Repeatable workout routine templates database",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "level": { "type": "string" },
+        "durationWeeks": { "type": "string" },
+        "gymId": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["title", "gymId"]
+    },
+    "Inquiry": {
+      "title": "Inquiry",
+      "description": "Gym lead contact inquiries",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "phone": { "type": "string" },
+        "email": { "type": "string" },
+        "message": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["name"]
     }
   },
   "firestore": {
@@ -169,6 +232,10 @@
     "/batches/{batchId}": { "schema": "Batch", "description": "Gym batches" },
     "/settings/{gymId}": { "schema": "Settings", "description": "Gym settings" },
     "/announcements/{id}": { "schema": "Announcement", "description": "Gym announcements" },
-    "/inventory/{id}": { "schema": "Inventory", "description": "Gym inventory" }
+    "/inventory/{id}": { "schema": "Inventory", "description": "Gym inventory" },
+    "/assigned_workouts/{id}": { "schema": "AssignedWorkout", "description": "Assigned physical workouts plans" },
+    "/classes/{id}": { "schema": "Class", "description": "Active classes timetable" },
+    "/workout_templates/{id}": { "schema": "WorkoutTemplate", "description": "Repeatable routine templates library" },
+    "/inquiries/{id}": { "schema": "Inquiry", "description": "CRM lead web inquiries" }
   }
 }

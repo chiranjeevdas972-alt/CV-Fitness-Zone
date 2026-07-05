@@ -1,10 +1,11 @@
 {
-  "projectId": "gen-lang-client-0724295021",
-  "appId": "1:66302157098:web:71f9041cb08b59b21cbe53",
-  "apiKey": "AIzaSyAPyhkZbT0DZa-KJ3piH0m-J5uA9ReryF8",
-  "authDomain": "gen-lang-client-0724295021.firebaseapp.com",
-  "firestoreDatabaseId": "ai-studio-253d1633-aef9-4b77-b85c-b7b63c55a66a",
-  "storageBucket": "gen-lang-client-0724295021.firebasestorage.app",
-  "messagingSenderId": "66302157098",
-  "measurementId": ""
+  "projectId": "c-vidya-fitness-zone",
+  "appId": "1:734981500747:web:4f14bccaee4bc7fc58c2ce",
+  "apiKey": "AIzaSyCIJsJb872AoDiDGUy953gm8ASa2_UU_7Q",
+  "authDomain": "c-vidya-fitness-zone.firebaseapp.com",
+  "firestoreDatabaseId": "(default)",
+  "databaseURL": "https://c-vidya-fitness-zone-default-rtdb.firebaseio.com",
+  "storageBucket": "c-vidya-fitness-zone.firebasestorage.app",
+  "messagingSenderId": "734981500747",
+  "measurementId": "G-4R2QW09Y3C"
 }

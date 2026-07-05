@@ -54,21 +54,30 @@ export function MemberDetails() {
 
     const pq = query(
       collection(db, 'payments'), 
-      where('memberId', '==', id),
-      orderBy('date', 'desc')
+      where('memberId', '==', id)
     );
     const unsubscribePayments = onSnapshot(pq, (snapshot) => {
-      setPayments(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      data.sort((a: any, b: any) => {
+        const dateA = a.date || '';
+        const dateB = b.date || '';
+        return dateB.localeCompare(dateA);
+      });
+      setPayments(data);
     });
 
     const aq = query(
       collection(db, 'attendance'), 
-      where('memberId', '==', id),
-      orderBy('date', 'desc'),
-      limit(10)
+      where('memberId', '==', id)
     );
     const unsubscribeAttendance = onSnapshot(aq, (snapshot) => {
-      setAttendance(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      data.sort((a: any, b: any) => {
+        const dateA = a.date || '';
+        const dateB = b.date || '';
+        return dateB.localeCompare(dateA);
+      });
+      setAttendance(data.slice(0, 10));
     });
 
     fetchMember();
@@ -127,8 +136,12 @@ export function MemberDetails() {
         <div className="lg:col-span-1 space-y-6">
           <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-zinc-800 p-8 shadow-sm">
             <div className="flex flex-col items-center text-center space-y-4">
-              <div className="w-32 h-32 rounded-3xl bg-red-600 flex items-center justify-center text-white text-5xl font-black shadow-2xl shadow-red-600/20">
-                {member.name.charAt(0)}
+              <div className="w-32 h-32 rounded-3xl bg-red-600 flex items-center justify-center text-white text-5xl font-black shadow-2xl shadow-red-600/20 overflow-hidden border border-red-500">
+                {member.photo ? (
+                  <img src={member.photo} alt={member.name} className="w-full h-full object-cover" />
+                ) : (
+                  member.name.charAt(0)
+                )}
               </div>
               <div>
                 <h2 className="text-2xl font-black uppercase italic tracking-tight">{member.name}</h2>

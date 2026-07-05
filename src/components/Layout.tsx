@@ -14,6 +14,7 @@ import {
   Dumbbell,
   Layers,
   ChevronRight,
+  ChevronDown,
   Sun,
   Moon,
   Package,
@@ -22,9 +23,25 @@ import {
   TrendingUp,
   TrendingDown,
   Sparkles,
-  BarChart3
+  BarChart3,
+  UserPlus,
+  Bookmark,
+  Contact,
+  GraduationCap,
+  Smile,
+  Receipt,
+  Tag,
+  Activity,
+  Heart,
+  Hourglass,
+  History,
+  UserCheck,
+  CheckCircle2,
+  Bike
 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import { doc, onSnapshot } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -38,6 +55,36 @@ export function Layout({ children }: { children: React.ReactNode }) {
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(true);
+  const [gymName, setGymName] = useState('C Vidya Fitness Zone');
+
+  useEffect(() => {
+    if (!profile?.gymId) return;
+    const docRef = doc(db, 'settings', profile.gymId);
+    const unsubscribe = onSnapshot(docRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        if (data && data.gymName) {
+          setGymName(data.gymName);
+        }
+      }
+    }, (err) => {
+      console.error("Layout dynamic settings fetch error:", err);
+    });
+    return () => unsubscribe();
+  }, [profile?.gymId]);
+
+  const [expandedMenus, setExpandedMenus] = useState<Record<string, boolean>>({
+    'Admin': true,
+    'Members': false,
+    'Trainer': false,
+    'Trainee': false,
+    'Health Updates': false,
+    'Member Payments': false
+  });
+
+  const toggleMenu = (name: string) => {
+    setExpandedMenus(prev => ({ ...prev, [name]: !prev[name] }));
+  };
 
   useEffect(() => {
     if (isDarkMode) {
@@ -48,25 +95,104 @@ export function Layout({ children }: { children: React.ReactNode }) {
   }, [isDarkMode]);
 
   const navItems = [
-    { name: 'Dashboard', icon: LayoutDashboard, path: '/dashboard', roles: ['admin', 'trainer', 'member'] },
-    { name: 'AI Zone', icon: Sparkles, path: '/ai-zone', roles: ['admin', 'trainer', 'member'] },
-    { name: 'Reports & CRM', icon: BarChart3, path: '/reports-crm', roles: ['admin', 'trainer'] },
-    { name: 'Members', icon: Users, path: '/members', roles: ['admin', 'trainer'] },
-    { name: 'Trainers', icon: UserSquare2, path: '/trainers', roles: ['admin'] },
-    { name: 'Shop', icon: ShoppingBag, path: '/shop', roles: ['admin', 'trainer', 'member'] },
-    { name: 'Body Gain', icon: TrendingUp, path: '/shop?category=gain', roles: ['admin', 'trainer', 'member'] },
-    { name: 'Body Loss', icon: TrendingDown, path: '/shop?category=loss', roles: ['admin', 'trainer', 'member'] },
-    { name: 'Plans', icon: Layers, path: '/plans', roles: ['admin'] },
-    { name: 'Payments', icon: CreditCard, path: '/payments', roles: ['admin'] },
-    { name: 'Attendance', icon: CalendarCheck, path: '/attendance', roles: ['admin', 'trainer'] },
-    { name: 'Inventory', icon: Package, path: '/inventory', roles: ['admin'] },
-    { name: 'Announcements', icon: Megaphone, path: '/announcements', roles: ['admin', 'trainer', 'member'] },
-    { name: 'Settings', icon: Settings, path: '/settings', roles: ['admin'] },
+    { 
+      name: 'Admin', 
+      icon: GraduationCap, 
+      path: '/dashboard', 
+      roles: ['admin', 'manager'],
+      subItems: [
+        { name: 'Dashboard', icon: LayoutDashboard, path: '/dashboard' },
+        { name: 'Staffs/Trainers', icon: UserSquare2, path: '/trainers' },
+        { name: 'Memberships', icon: Layers, path: '/plans' },
+        { name: 'All Classes', icon: GraduationCap, path: '/trainers?filter=my-classes' },
+        { name: 'Today Attendance Report', icon: CalendarCheck, path: '/attendance' },
+        { name: 'Gym Details', icon: Settings, path: '/settings' }
+      ]
+    },
+    { 
+      name: 'Members', 
+      icon: Users, 
+      path: '/members', 
+      roles: ['admin', 'manager', 'trainer', 'staff'],
+      subItems: [
+        { name: 'Add Trainee', icon: UserPlus, path: '/members?filter=add' },
+        { name: 'Trainees', icon: Users, path: '/members' },
+        { name: 'Dropped Trainees', icon: Bookmark, path: '/members?filter=dropped' },
+        { name: 'Members Details', icon: Contact, path: '/members?filter=details' }
+      ]
+    },
+    { 
+      name: 'Trainer', 
+      icon: UserSquare2, 
+      path: '/trainers', 
+      roles: ['admin', 'manager', 'trainer'],
+      subItems: [
+        { name: 'Assign Workouts', icon: Dumbbell, path: '/trainers?filter=assign-workouts' },
+        { name: 'My Classes', icon: GraduationCap, path: '/trainers?filter=my-classes' },
+        { name: 'My Trainees', icon: Users, path: '/trainers?filter=my-trainees' },
+        { name: 'Assigned to Trainees', icon: Bookmark, path: '/trainers?filter=assigned-trainees' },
+        { name: 'Assigned to Class', icon: Contact, path: '/trainers?filter=assigned-to-class' },
+        { name: 'All Workouts', icon: Dumbbell, path: '/trainers?filter=all-workouts' }
+      ]
+    },
+    { 
+      name: 'Trainee', 
+      icon: Bike, 
+      path: '/ai-zone', 
+      roles: ['admin', 'manager', 'trainer', 'member'],
+      subItems: [
+        { name: 'Today Workouts', icon: CheckCircle2, path: '/ai-zone?filter=today-workouts' },
+        { name: 'My Profile', icon: Smile, path: '/ai-zone?filter=my-profile' },
+        { name: 'My Classes', icon: Bike, path: '/ai-zone?filter=my-classes' },
+        { name: 'My Current Workouts', icon: Tag, path: '/ai-zone?filter=my-current-workouts' },
+        { name: 'My Attendance Report', icon: UserCheck, path: '/ai-zone?filter=my-attendance-report' },
+        { name: 'My Payment History', icon: Receipt, path: '/ai-zone?filter=my-payment-history' }
+      ]
+    },
+    { 
+      name: 'Health Updates', 
+      icon: Megaphone, 
+      path: '/announcements', 
+      roles: ['admin', 'manager', 'trainer', 'member', 'staff'],
+      subItems: [
+        { name: 'Health Updates', icon: Heart, path: '/announcements?filter=updates' },
+        { name: 'All Health Updates', icon: TrendingUp, path: '/announcements?filter=all-updates' },
+        { name: 'My Health Updates', icon: UserSquare2, path: '/announcements?filter=my-updates' }
+      ]
+    },
+    { 
+      name: 'Member Payments', 
+      icon: CreditCard, 
+      path: '/payments', 
+      roles: ['admin', 'manager', 'staff'],
+      subItems: [
+        { name: 'Payment Form', icon: CreditCard, path: '/payments?filter=form' },
+        { name: 'Awaiting Payments', icon: Hourglass, path: '/payments?filter=awaiting' },
+        { name: 'Payment History', icon: History, path: '/payments?filter=history' }
+      ]
+    },
+    { name: 'Reports & CRM', icon: BarChart3, path: '/reports-crm', roles: ['admin', 'manager', 'trainer', 'member'] },
   ];
 
-  const filteredNavItems = navItems.filter(item => 
-    profile && item.roles.includes(profile.role)
-  );
+  const filteredNavItems = navItems;
+
+  useEffect(() => {
+    // Automatically expand the menu group that contains the current active route/sub-item
+    const activeGroup = navItems.find(item => {
+      if (item.subItems) {
+        return item.subItems.some(sub => {
+          const subBasePath = sub.path.split('?')[0];
+          return location.pathname + location.search === sub.path || 
+            (location.pathname === subBasePath && !location.search);
+        });
+      }
+      return false;
+    });
+
+    if (activeGroup) {
+      setExpandedMenus(prev => ({ ...prev, [activeGroup.name]: true }));
+    }
+  }, [location.pathname, location.search]);
 
   const handleSignOut = async () => {
     await signOut();
@@ -90,49 +216,125 @@ export function Layout({ children }: { children: React.ReactNode }) {
 
       {/* Sidebar */}
       <aside className={cn(
-        "fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-zinc-900 border-r border-zinc-200 dark:border-zinc-800 transform transition-transform duration-300 lg:relative lg:translate-x-0",
+        "fixed inset-y-0 left-0 z-50 w-72 bg-white dark:bg-zinc-950 border-r border-zinc-200 dark:border-zinc-900 transform transition-transform duration-300 lg:relative lg:translate-x-0 shadow-2xl lg:shadow-none",
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="h-full flex flex-col">
           {/* Logo Section */}
-          <div className="p-8 flex items-center gap-4">
-            <div className="bg-red-600 p-2.5 rounded-xl shadow-lg shadow-red-600/20">
-              <Dumbbell className="w-7 h-7 text-white" />
-            </div>
-            <div>
-              <h1 className="font-black text-xl leading-none tracking-tighter uppercase italic">CV Fitness</h1>
-              <p className="text-[10px] text-zinc-500 uppercase tracking-[0.2em] font-black mt-1">Victory Zone</p>
-            </div>
+          <div className="p-[22px] flex items-center bg-zinc-950 text-white select-none border-b border-zinc-800">
+            <h1 className="font-black text-lg tracking-wide uppercase text-zinc-100">Gym Management</h1>
           </div>
 
           {/* Navigation */}
-          <nav className="flex-1 px-4 space-y-1.5 overflow-y-auto custom-scrollbar">
-            <div className="px-4 mb-4">
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400">Main Menu</p>
-            </div>
-            {filteredNavItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                onClick={() => setIsSidebarOpen(false)}
-                className={cn(
-                  "flex items-center justify-between px-4 py-3.5 rounded-2xl transition-all duration-300 group relative overflow-hidden",
-                  location.pathname === item.path
-                    ? "bg-red-600 text-white shadow-xl shadow-red-600/20"
-                    : "hover:bg-zinc-100 dark:hover:bg-zinc-800/50 text-zinc-500 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
-                )}
-              >
-                <div className="flex items-center gap-3.5 relative z-10">
-                  <item.icon className={cn("w-5 h-5 transition-transform duration-300 group-hover:scale-110", 
-                    location.pathname === item.path ? "text-white" : "text-zinc-400 group-hover:text-red-600"
-                  )} />
-                  <span className="font-bold text-sm uppercase tracking-wider">{item.name}</span>
-                </div>
-                {location.pathname === item.path && (
-                  <ChevronRight className="w-4 h-4 text-white/50" />
-                )}
-              </Link>
-            ))}
+          <nav className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto custom-scrollbar">
+            {filteredNavItems.map((item) => {
+              const hasSubItems = !!item.subItems;
+              const isExpanded = !!expandedMenus[item.name];
+              
+              // Determine if current main path matches
+              const isCurrentPath = location.pathname === item.path && !location.search;
+              const isSubActive = hasSubItems && item.subItems.some(sub => {
+                const subBasePath = sub.path.split('?')[0];
+                return location.pathname + location.search === sub.path || 
+                  (location.pathname === subBasePath && !location.search);
+              });
+              const isActive = isCurrentPath || isSubActive;
+
+              if (hasSubItems) {
+                return (
+                  <div key={item.name} className="flex flex-col space-y-1">
+                    <button
+                      onClick={() => {
+                        toggleMenu(item.name);
+                        if (!isActive) {
+                          navigate(item.path);
+                        }
+                      }}
+                      className={cn(
+                        "flex items-center justify-between w-full px-4 py-3.5 rounded-2xl transition-all duration-300 group relative overflow-hidden",
+                        isActive
+                          ? "bg-zinc-100 dark:bg-zinc-900 text-zinc-950 dark:text-zinc-100 font-bold"
+                          : "hover:bg-zinc-100/70 dark:hover:bg-zinc-900/40 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white"
+                      )}
+                    >
+                      <div className="flex items-center gap-3.5 relative z-10">
+                        <item.icon className={cn("w-5 h-5 transition-transform duration-300 group-hover:scale-110", 
+                          isActive ? "text-violet-600 dark:text-violet-500" : "text-zinc-600 dark:text-zinc-400 group-hover:text-violet-600"
+                        )} />
+                        <span className="font-semibold text-sm tracking-wide">{item.name === 'Admin' ? gymName : item.name}</span>
+                      </div>
+                      {isExpanded ? (
+                        <ChevronDown className="w-4 h-4 text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-950 dark:group-hover:text-white" />
+                      ) : (
+                        <ChevronRight className="w-4 h-4 text-zinc-600 dark:text-zinc-400 group-hover:text-zinc-950 dark:group-hover:text-white" />
+                      )}
+                    </button>
+
+                    <AnimatePresence initial={true}>
+                      {isExpanded && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.25, ease: "easeInOut" }}
+                          className="overflow-hidden pl-4 pr-1 py-1 space-y-1 self-stretch"
+                        >
+                          {item.subItems!.map((sub) => {
+                            const isCurrentSubActive = location.pathname + location.search === sub.path || 
+                              (location.pathname === sub.path && !location.search && sub.path.indexOf('?') === -1);
+                            
+                            return (
+                              <Link
+                                key={sub.name}
+                                to={sub.path}
+                                onClick={() => setIsSidebarOpen(false)}
+                                className={cn(
+                                  "flex items-center gap-3 pl-6 pr-4 py-2.5 rounded-xl transition-all duration-200 group font-bold text-[13px] tracking-wide",
+                                  isCurrentSubActive
+                                    ? "bg-violet-600 text-white font-extrabold shadow-lg shadow-violet-600/25"
+                                    : "hover:bg-zinc-100 dark:hover:bg-zinc-900/50 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white"
+                                )}
+                              >
+                                <sub.icon className={cn("w-4 h-4 transition-transform duration-200 group-hover:scale-110",
+                                  isCurrentSubActive ? "text-white" : "text-zinc-600 dark:text-zinc-400 group-hover:text-violet-500"
+                                )} />
+                                <span>{sub.name}</span>
+                              </Link>
+                            );
+                          })}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                );
+              }
+
+              return (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={() => setIsSidebarOpen(false)}
+                  className={cn(
+                    "flex items-center justify-between px-4 py-3.5 rounded-2xl transition-all duration-300 group relative overflow-hidden",
+                    location.pathname === item.path
+                      ? "bg-zinc-100 dark:bg-zinc-900 text-violet-700 dark:text-violet-400 font-bold"
+                      : "hover:bg-zinc-100/70 dark:hover:bg-zinc-900/40 text-zinc-700 dark:text-zinc-300 hover:text-zinc-950 dark:hover:text-white"
+                  )}
+                >
+                  <div className="flex items-center gap-3.5 relative z-10">
+                    <item.icon className={cn("w-5 h-5 transition-transform duration-300 group-hover:scale-110", 
+                      location.pathname === item.path ? "text-violet-600 dark:text-violet-500" : "text-zinc-600 dark:text-zinc-400 group-hover:text-violet-600"
+                    )} />
+                    <span className="font-semibold text-sm tracking-wide">{item.name === 'Admin' ? gymName : item.name}</span>
+                  </div>
+                  {location.pathname === item.path ? (
+                    <ChevronRight className="w-4 h-4 text-violet-600 dark:text-violet-500 font-bold" />
+                  ) : (
+                    <ChevronRight className="w-4 h-4 opacity-0 group-hover:opacity-100 text-zinc-600 dark:text-zinc-400 transition-all" />
+                  )}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* User Profile Section */}
@@ -176,7 +378,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
               <Menu className="w-6 h-6" />
             </button>
             <h2 className="text-lg font-black uppercase italic tracking-tight hidden sm:block">
-              {navItems.find(item => item.path === location.pathname)?.name || 'Management'}
+              {(() => {
+                const currentFullPath = location.pathname + location.search;
+                const matchedSubItem = navItems.flatMap(item => item.subItems || []).find(sub => sub.path === currentFullPath || sub.path === location.pathname);
+                if (matchedSubItem) return matchedSubItem.name;
+                const matchedItem = navItems.find(item => item.path === location.pathname);
+                return matchedItem ? (matchedItem.name === 'Admin' ? gymName : matchedItem.name) : 'Management';
+              })()}
             </h2>
           </div>
 

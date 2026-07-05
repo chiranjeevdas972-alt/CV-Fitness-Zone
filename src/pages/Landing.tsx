@@ -4,6 +4,8 @@ import { motion } from 'motion/react';
 import { Dumbbell, Users, Calendar, CreditCard, Shield, Zap, ArrowRight, CheckCircle2, Mail, Phone, Target, Trophy, ShieldCheck } from 'lucide-react';
 import { Button } from '../components/ui/Form';
 import { useAuth } from '../contexts/AuthContext';
+import { Shop } from './Shop';
+import { PartnerInquirySection } from '../components/PartnerInquirySection';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -14,6 +16,11 @@ function cn(...inputs: ClassValue[]) {
 export function Landing() {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Add dark mode styling to html element for robust shop coloring
+    document.documentElement.classList.add('dark');
+  }, []);
 
   useEffect(() => {
     if (!loading && user) {
@@ -30,11 +37,13 @@ export function Landing() {
             <div className="w-10 h-10 bg-red-600 rounded-xl flex items-center justify-center shadow-lg shadow-red-600/20">
               <Dumbbell className="text-white w-6 h-6" />
             </div>
-            <span className="text-2xl font-black tracking-tighter uppercase italic">CV Fitness Zone</span>
+            <span className="text-2xl font-black tracking-tighter uppercase italic bg-gradient-to-r from-white via-red-200 to-white bg-clip-text text-transparent">C Vidya Fitness Zone</span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm font-bold uppercase tracking-widest text-zinc-400">
             <a href="#features" className="hover:text-white transition-colors">Features</a>
+            <a href="#shop" className="hover:text-white transition-colors">Shop</a>
             <a href="#pricing" className="hover:text-white transition-colors">Pricing</a>
+            <a href="#partner-inquiry" className="hover:text-white transition-colors">Connect</a>
             <a href="#about" className="hover:text-white transition-colors">About</a>
           </div>
           <div className="flex items-center gap-4">
@@ -147,6 +156,13 @@ export function Landing() {
         </div>
       </section>
 
+      {/* Shop Section */}
+      <section id="shop" className="py-24 bg-zinc-950 border-t border-zinc-900">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <Shop />
+        </div>
+      </section>
+
       {/* Pricing Section */}
       <section id="pricing" className="py-24 relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -162,7 +178,13 @@ export function Landing() {
                 price: "1,499",
                 period: "/month",
                 desc: "Perfect for new or small gyms",
-                features: ["Up to 500 Members", "2 Trainer Accounts", "Basic Analytics", "Email Support", "Attendance Tracking"],
+                features: [
+                  "Active Member Directory (Up to 500)",
+                  "2 Professional Gym Trainer Accounts",
+                  "Manual QR & Biometric Check-in logs",
+                  "GST-Compliant Receipts & Billing invoices",
+                  "Standard Email & Platform Support"
+                ],
                 popular: false
               },
               {
@@ -170,7 +192,15 @@ export function Landing() {
                 price: "12,999",
                 period: "/year",
                 desc: "For established high-growth gyms",
-                features: ["Unlimited Members", "Unlimited Trainers", "Advanced AI Analytics", "Inventory Management", "Priority 24/7 Support", "Custom Branding"],
+                features: [
+                  "Unlimited Members & Elite Trainers",
+                  "AI Workout & Personalized Diet Coach (AiZone)",
+                  "Live QR Attendance & Dashboard Monitoring",
+                  "E-Store Supplement Sales & Protein Inventory Tracker",
+                  "Interactive CRM Lead Generation Pipelines",
+                  "WhatsApp Auto-Simulation Alerts & SMS broadcasts",
+                  "Multi-Segment Financial & Operational analytics"
+                ],
                 popular: true
               },
               {
@@ -178,7 +208,14 @@ export function Landing() {
                 price: "Custom",
                 period: "",
                 desc: "For gym chains and franchises",
-                features: ["Multi-branch Management", "Whitelabel Mobile App", "Custom Integrations", "Dedicated Account Manager", "SLA Guarantee", "On-site Training"],
+                features: [
+                  "Ecosystem Multi-Branch Switch System",
+                  "Whitelabel Custom Domain Gym Brand Portals",
+                  "Unified Bulk Payment Gateway Clearances",
+                  "Secure Database System Backup Triggers",
+                  "Custom WhatsApp Cloud API Gateways",
+                  "24/7 Phone SLA Support & Transition Training"
+                ],
                 popular: false
               }
             ].map((plan, i) => (
@@ -234,6 +271,9 @@ export function Landing() {
         </div>
       </section>
 
+      {/* Partner & Inquiry Section */}
+      <PartnerInquirySection />
+
       {/* About Section */}
       <section id="about" className="py-24 relative overflow-hidden bg-zinc-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -268,7 +308,7 @@ export function Landing() {
                   Our Commitment to <span className="text-red-600">Victory</span>
                 </h2>
                 <p className="text-zinc-400 font-medium leading-relaxed text-lg">
-                  At CV Fitness Zone, we believe that fitness is the foundation of a successful life. Our mission is to empower fitness center owners with the digital tools they need to inspire their members and manage their growth seamlessly.
+                  At C Vidya Fitness Zone, we believe that fitness is the foundation of a successful life. Our mission is to empower fitness center owners with the digital tools they need to inspire their members and manage their growth seamlessly.
                 </p>
               </div>
 
@@ -332,11 +372,11 @@ export function Landing() {
               Ready to Transform Your <br /> <span className="text-red-600">Gym Operations?</span>
             </h2>
             <p className="text-xl text-zinc-400 font-medium mb-10 max-w-xl mx-auto">
-              Join hundreds of gym owners who have scaled their business with CV Fitness Zone.
+              Join hundreds of gym owners who have scaled their business with C Vidya Fitness Zone.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link to="/signup">
-                <Button size="lg" className="w-full sm:w-auto px-12 py-6 text-xl uppercase tracking-widest">
+              <Link to="/signup" className="w-full sm:w-auto">
+                <Button size="lg" className="w-full px-12 py-6 text-xl uppercase tracking-widest">
                   Get Started Now
                 </Button>
               </Link>
@@ -350,39 +390,39 @@ export function Landing() {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 border-t border-zinc-900 bg-zinc-950/50">
+      <footer className="py-16 border-t border-zinc-900 bg-zinc-950">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-12">
           <div className="space-y-6 text-center md:text-left">
             <div className="flex items-center gap-2 justify-center md:justify-start">
               <div className="w-8 h-8 bg-red-600/10 rounded-lg flex items-center justify-center">
                 <Dumbbell className="text-red-600 w-5 h-5" />
               </div>
-              <span className="text-xl font-black tracking-tighter uppercase italic">CV Fitness Zone</span>
+              <span className="text-xl font-black tracking-tighter uppercase italic text-white md:tracking-widest">C Vidya Fitness Zone</span>
             </div>
             <div className="space-y-3">
-              <div className="flex items-center gap-3 justify-center md:justify-start text-xs font-bold uppercase tracking-[0.1em] text-zinc-500">
+              <div className="flex items-center gap-3 justify-center md:justify-start text-xs font-bold uppercase tracking-[0.1em] text-zinc-300">
                 <Mail className="w-4 h-4 text-red-600" />
-                <a href="mailto:cvidyalibrary32@gmail.com" className="hover:text-white transition-colors">cvidyalibrary32@gmail.com</a>
+                <a href="mailto:cvidyasolutions@gmail.com" className="hover:text-red-500 transition-colors">cvidyasolutions@gmail.com</a>
               </div>
-              <div className="flex items-center gap-3 justify-center md:justify-start text-xs font-bold uppercase tracking-[0.1em] text-zinc-500">
+              <div className="flex items-center gap-3 justify-center md:justify-start text-xs font-bold uppercase tracking-[0.1em] text-zinc-300">
                 <Phone className="w-4 h-4 text-red-600" />
-                <a href="tel:+918987766981" className="hover:text-white transition-colors">+91 89877 66981</a>
+                <a href="tel:+918987766981" className="hover:text-red-500 transition-colors">+91 89877 66981</a>
               </div>
             </div>
           </div>
 
           <div className="flex flex-col items-center md:items-end gap-6 text-center md:text-right">
-            <div className="flex gap-8 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-600">
-              <a href="#" className="hover:text-red-600 transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-red-600 transition-colors">Terms of Service</a>
+            <div className="flex gap-8 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-300">
+              <Link to="/privacy-policy" className="hover:text-red-500 transition-colors">Privacy Policy</Link>
+              <Link to="/terms-and-conditions" className="hover:text-red-500 transition-colors">Terms of Service</Link>
             </div>
             <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 mb-2">
-                © 2026 CV Fitness Zone. All Rights Reserved.
+              <p className="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 mb-3">
+                © 2026 C Vidya Fitness Zone. All Rights Reserved.
               </p>
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-zinc-900 border border-zinc-800 rounded-full">
-                <span className="text-[9px] font-black uppercase tracking-[0.3em] text-zinc-400">Developed by</span>
-                <span className="text-[9px] font-black uppercase tracking-[0.3em] text-red-600">chiranjeev Das</span>
+              <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-zinc-900 border border-zinc-800 rounded-full hover:border-zinc-700 transition-colors">
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-zinc-400">Director by</span>
+                <span className="text-[10px] font-black uppercase tracking-[0.3em] text-red-600">Chiranjeev Das</span>
               </div>
             </div>
           </div>

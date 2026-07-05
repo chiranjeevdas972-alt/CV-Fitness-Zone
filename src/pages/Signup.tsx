@@ -63,7 +63,7 @@ export function Signup() {
           <div className="inline-flex items-center justify-center p-3 bg-red-600 rounded-2xl mb-4 shadow-lg shadow-red-600/20">
             <Dumbbell className="w-8 h-8 text-white" />
           </div>
-          <h2 className="text-3xl font-bold text-white tracking-tight">Join CV Fitness</h2>
+          <h2 className="text-3xl font-bold text-white tracking-tight">Join C Vidya Fitness</h2>
           <p className="text-zinc-400 mt-2 font-medium">Start your victory journey today</p>
         </div>
 

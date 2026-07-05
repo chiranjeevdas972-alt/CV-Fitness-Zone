@@ -43,7 +43,7 @@ export function Settings() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [gymSettings, setGymSettings] = useState({
-    gymName: 'CV Fitness Zone',
+    gymName: 'C Vidya Fitness Zone',
     contactEmail: '',
     contactPhone: '',
     address: '',
@@ -65,7 +65,7 @@ export function Settings() {
           setGymSettings(docSnap.data() as any);
         } else {
           const defaultSettings = {
-            gymName: 'CV Fitness Zone',
+            gymName: 'C Vidya Fitness Zone',
             contactEmail: profile.email,
             contactPhone: '',
             address: '',
@@ -246,7 +246,7 @@ export function Settings() {
               <div className="space-y-6">
                 <Input
                   label="Gym Name"
-                  placeholder="CV Fitness Zone"
+                  placeholder="C Vidya Fitness Zone"
                   value={gymSettings.gymName}
                   onChange={e => setGymSettings({...gymSettings, gymName: e.target.value})}
                   required
@@ -256,7 +256,7 @@ export function Settings() {
                   <Input
                     label="Contact Email"
                     type="email"
-                    placeholder="contact@cvfitness.com"
+                    placeholder="contact@cvidyafitness.com"
                     value={gymSettings.contactEmail}
                     onChange={e => setGymSettings({...gymSettings, contactEmail: e.target.value})}
                     required

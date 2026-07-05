@@ -2,12 +2,26 @@ import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
+import { getAnalytics, isSupported } from 'firebase/analytics';
 import firebaseConfig from '../../firebase-applet-config.json';
 
 const app = initializeApp(firebaseConfig);
-export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
+const dbId = (firebaseConfig as any).firestoreDatabaseId;
+export const db = dbId && dbId !== '(default)' ? getFirestore(app, dbId) : getFirestore(app);
 export const auth = getAuth(app);
 export const storage = getStorage(app);
+
+// Initialize analytics safely if supported (e.g. in environments with window)
+export let analytics: any = null;
+if (typeof window !== 'undefined') {
+  isSupported().then((supported) => {
+    if (supported) {
+      analytics = getAnalytics(app);
+    }
+  }).catch((err) => {
+    console.warn('Analytics is not supported in this environment:', err);
+  });
+}
 
 export interface FirestoreErrorInfo {
   error: string;
@@ -41,7 +55,16 @@ export function handleFirestoreError(error: any, operationType: FirestoreErrorIn
         })) || []
       }
     };
-    throw new Error(JSON.stringify(errorInfo));
+    const jsonError = JSON.stringify(errorInfo);
+    console.error('Firestore Error Info: ', jsonError);
+    // Throw asynchronously to prevent corrupting Firestore's internal watch stream / listener loop
+    setTimeout(() => {
+      throw new Error(jsonError);
+    }, 0);
+    return;
   }
-  throw error;
+  console.error('Firestore Error: ', error);
+  setTimeout(() => {
+    throw error;
+  }, 0);
 }

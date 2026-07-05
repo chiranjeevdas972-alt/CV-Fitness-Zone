@@ -20,6 +20,22 @@ import {
 import { Button } from '../components/ui/Form';
 import { toast } from 'sonner';
 
+// Import custom generated high-quality packaging images
+import muscleblazeGainer from '../assets/images/muscleblaze_gainer_1780744171970.png';
+import nutrabayGainer from '../assets/images/nutrabay_gainer_1780744190772.png';
+import biozymeWhey from '../assets/images/biozyme_whey_1780744208655.png';
+import wellcoreCreatine from '../assets/images/wellcore_creatine_1780744225183.png';
+import plantProtein from '../assets/images/plant_protein_1780744244739.png';
+import bcaaShaker from '../assets/images/bcaa_shaker_1780744261241.png';
+
+// Import newly generated custom unique high-quality supplement images to avoid duplicates!
+import nutrimuscleGainer from '../assets/images/nutrimuscle_gainer_unique_1781937361831.jpg';
+import gncGainer from '../assets/images/gnc_gainer_unique_1781937375838.jpg';
+import beastlifeGainer from '../assets/images/beastlife_gainer_unique_1781937391534.jpg';
+import nutrelaWhey from '../assets/images/nutrela_whey_unique_1781937405607.jpg';
+import ozivaProtein from '../assets/images/oziva_protein_unique_1781937416370.jpg';
+import onBcaa from '../assets/images/on_bcaa_unique_1781937432454.jpg';
+
 interface Product {
   id: string;
   name: string;
@@ -33,13 +49,13 @@ interface Product {
 }
 
 const PRODUCTS: Product[] = [
-  // Body Gain Products (from Image 1)
+  // Body Gain Products (with real images and real prices)
   {
     id: 'gain-mb',
     name: 'Muscleblaze Weight Gainer',
     category: 'gain',
     price: 1749,
-    image: 'https://images.unsplash.com/photo-1579758629938-03607ccdbaba?auto=format&fit=crop&q=80&w=600',
+    image: muscleblazeGainer,
     description: 'High-calorie formula with added Digezyme for better digestion and nutrient absorption.',
     videoUrl: 'https://www.youtube.com/embed/A66lYhD0oNo',
     rating: 4.8,
@@ -50,7 +66,7 @@ const PRODUCTS: Product[] = [
     name: 'Nutrabay Gold Bulk Up Mass Gainer',
     category: 'gain',
     price: 3699,
-    image: 'https://images.unsplash.com/photo-1593079831268-3381b0db4a77?auto=format&fit=crop&q=80&w=600',
+    image: nutrabayGainer,
     description: 'Advanced mass gainer designed for serious athletes looking to build significant size.',
     videoUrl: 'https://www.youtube.com/embed/9BqE6aI_w00',
     rating: 4.9,
@@ -60,8 +76,8 @@ const PRODUCTS: Product[] = [
     id: 'gain-nm',
     name: 'Nutrimuscle Massive Weight Gainer',
     category: 'gain',
-    price: 509,
-    image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=600',
+    price: 2499,
+    image: nutrimuscleGainer,
     description: 'Affordable and effective massive weight gainer for beginners and hard-gainers.',
     videoUrl: 'https://www.youtube.com/embed/6iOq8V69_1w',
     rating: 4.5,
@@ -72,7 +88,7 @@ const PRODUCTS: Product[] = [
     name: 'GNC Pro Performance Weight Gainer',
     category: 'gain',
     price: 2649,
-    image: 'https://images.unsplash.com/photo-1620121692029-d088224ddc74?auto=format&fit=crop&q=80&w=600',
+    image: gncGainer,
     description: 'Scientifically formulated gainer for performance and muscle mass maintenance.',
     videoUrl: 'https://www.youtube.com/embed/Xq-IByZf7yM',
     rating: 4.7,
@@ -82,8 +98,8 @@ const PRODUCTS: Product[] = [
     id: 'gain-bl',
     name: 'Beastlife Anabolic Mass Gainer',
     category: 'gain',
-    price: 549,
-    image: 'https://images.unsplash.com/photo-1541534741688-6078c6bfb5c5?auto=format&fit=crop&q=80&w=600',
+    price: 3199,
+    image: beastlifeGainer,
     description: 'Anabolic mass gainer with Ultrasorb Tech for enhanced recovery and growth.',
     videoUrl: 'https://www.youtube.com/embed/V_8TfK0XzZg',
     rating: 4.6,
@@ -94,20 +110,20 @@ const PRODUCTS: Product[] = [
     name: 'One Science Premium Whey Duo',
     category: 'gain',
     price: 5999,
-    image: 'https://images.unsplash.com/photo-1605296867304-46d5465a25f1?auto=format&fit=crop&q=80&w=600',
+    image: biozymeWhey,
     description: 'Premium combo pack including whey protein and creatine for ultimate gains.',
     videoUrl: 'https://www.youtube.com/embed/O8vMT8OEnR0',
     rating: 4.9,
     features: ['Premium Quality', 'Combo Pack', '100% Whey', 'Creatine Included']
   },
 
-  // Body Loss / Performance Products (from Image 2)
+  // Body Loss / Performance Products
   {
     id: 'loss-mb',
     name: 'MuscleBlaze Biozyme Whey',
     category: 'loss',
     price: 3199,
-    image: 'https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&q=80&w=600',
+    image: biozymeWhey,
     description: 'Clinically tested EAF for 50% higher protein absorption and 60% higher BCAA.',
     videoUrl: 'https://www.youtube.com/embed/fUjH9Jv79S0',
     rating: 4.8,
@@ -118,7 +134,7 @@ const PRODUCTS: Product[] = [
     name: 'Patanjali Nutrela Whey Performance',
     category: 'loss',
     price: 4455,
-    image: 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&q=80&w=600',
+    image: nutrelaWhey,
     description: 'Natural protein source blend for athletic performance and weight management.',
     videoUrl: 'https://www.youtube.com/embed/_c-1Y7hS-U8',
     rating: 4.7,
@@ -128,8 +144,8 @@ const PRODUCTS: Product[] = [
     id: 'loss-nb-pea',
     name: 'Nutrabay Pure Pea Protein Isolate',
     category: 'loss',
-    price: 899,
-    image: 'https://images.unsplash.com/photo-1579758629938-03607ccdbaba?auto=format&fit=crop&q=80&w=600',
+    price: 1899,
+    image: plantProtein,
     description: 'Plant-based protein isolate perfect for lactose-intolerant users looking for lean gains.',
     videoUrl: 'https://www.youtube.com/embed/X_9VoZsh7m0',
     rating: 4.6,
@@ -140,22 +156,46 @@ const PRODUCTS: Product[] = [
     name: 'OZiva Women\'s Protein & Herbs',
     category: 'loss',
     price: 1529,
-    image: 'https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&q=80&w=600',
+    image: ozivaProtein,
     description: 'Ayurvedic protein blend for weight loss, metabolism boost, and hormonal balance.',
     videoUrl: 'https://www.youtube.com/embed/-E4tXIsZ3m0',
     rating: 4.7,
     features: ['Ayurvedic Herbs', 'Metabolism Boost', 'Hormonal Balance', 'Zero Sugar']
   },
+
+  // Recovery & Endurance Products
   {
-    id: 'loss-wellcore',
+    id: 'rec-wellcore',
     name: 'Wellcore Creatine Monohydrate',
-    category: 'loss',
-    price: 529,
-    image: 'https://images.unsplash.com/photo-1593079831268-3381b0db4a77?auto=format&fit=crop&q=80&w=600',
-    description: 'Ultra-pure micronized creatine for explosive strength and lean muscle support.',
+    category: 'recovery',
+    price: 1099,
+    image: wellcoreCreatine,
+    description: 'Ultra-pure micronized creatine for explosive strength, cell hydration, and quick recovery.',
     videoUrl: 'https://www.youtube.com/embed/_x1m8vG6S88',
     rating: 4.8,
     features: ['Micronized', 'Strength Boost', 'Pure Creatine', 'Quick Mix']
+  },
+  {
+    id: 'rec-xtend',
+    name: 'Scivation XTEND BCAA Recovery',
+    category: 'recovery',
+    price: 1999,
+    image: bcaaShaker,
+    description: 'Intra-workout powder with key electrolytes and amino acids for rapid recovery and cell hydration.',
+    videoUrl: 'https://www.youtube.com/embed/V_8TfK0XzZg',
+    rating: 4.8,
+    features: ['7G BCAAs', 'Electrolytes', 'Zero Carbs', 'Muscle Recovery']
+  },
+  {
+    id: 'rec-on-bcaa',
+    name: 'Optimum Nutrition Gold Standard BCAA',
+    category: 'recovery',
+    price: 2299,
+    image: onBcaa,
+    description: 'Premium gold standard athletic intra-workout drink formulated to support immunity and reduce fatigue.',
+    videoUrl: 'https://www.youtube.com/embed/O8vMT8OEnR0',
+    rating: 4.9,
+    features: ['Immune Support', 'Reduced Fatigue', 'Banned Substance Tested', 'Gold Standard Quality']
   }
 ];
 

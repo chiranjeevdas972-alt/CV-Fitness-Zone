@@ -20,6 +20,8 @@ import { MemberDetails } from './pages/MemberDetails';
 import { Shop } from './pages/Shop';
 import { AiZone } from './pages/AiZone';
 import { ReportsCrm } from './pages/ReportsCrm';
+import { TermsAndConditions } from './pages/TermsAndConditions';
+import { PrivacyPolicy } from './pages/PrivacyPolicy';
 
 export default function App() {
   return (
@@ -30,6 +32,8 @@ export default function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           
           <Route path="/dashboard" element={
             <ProtectedRoute>
@@ -40,7 +44,7 @@ export default function App() {
           } />
 
           <Route path="/members" element={
-            <ProtectedRoute allowedRoles={['admin', 'trainer']}>
+            <ProtectedRoute allowedRoles={['admin', 'trainer', 'member']}>
               <Layout>
                 <Members />
               </Layout>
@@ -48,7 +52,7 @@ export default function App() {
           } />
 
           <Route path="/members/:id" element={
-            <ProtectedRoute allowedRoles={['admin', 'trainer']}>
+            <ProtectedRoute allowedRoles={['admin', 'trainer', 'member']}>
               <Layout>
                 <MemberDetails />
               </Layout>
@@ -56,7 +60,7 @@ export default function App() {
           } />
 
           <Route path="/trainers" element={
-            <ProtectedRoute allowedRoles={['admin']}>
+            <ProtectedRoute allowedRoles={['admin', 'member']}>
               <Layout>
                 <Trainers />
               </Layout>
@@ -64,7 +68,7 @@ export default function App() {
           } />
 
           <Route path="/plans" element={
-            <ProtectedRoute allowedRoles={['admin']}>
+            <ProtectedRoute allowedRoles={['admin', 'member']}>
               <Layout>
                 <Plans />
               </Layout>
@@ -72,7 +76,7 @@ export default function App() {
           } />
 
           <Route path="/payments" element={
-            <ProtectedRoute allowedRoles={['admin']}>
+            <ProtectedRoute allowedRoles={['admin', 'member']}>
               <Layout>
                 <Payments />
               </Layout>
@@ -80,7 +84,7 @@ export default function App() {
           } />
 
           <Route path="/attendance" element={
-            <ProtectedRoute allowedRoles={['admin', 'trainer']}>
+            <ProtectedRoute allowedRoles={['admin', 'trainer', 'member']}>
               <Layout>
                 <Attendance />
               </Layout>
@@ -88,7 +92,7 @@ export default function App() {
           } />
 
           <Route path="/inventory" element={
-            <ProtectedRoute allowedRoles={['admin']}>
+            <ProtectedRoute allowedRoles={['admin', 'member']}>
               <Layout>
                 <Inventory />
               </Layout>
@@ -120,7 +124,7 @@ export default function App() {
           } />
 
           <Route path="/reports-crm" element={
-            <ProtectedRoute allowedRoles={['admin', 'trainer']}>
+            <ProtectedRoute allowedRoles={['admin', 'trainer', 'member']}>
               <Layout>
                 <ReportsCrm />
               </Layout>
@@ -128,7 +132,7 @@ export default function App() {
           } />
 
           <Route path="/settings" element={
-            <ProtectedRoute allowedRoles={['admin']}>
+            <ProtectedRoute allowedRoles={['admin', 'member']}>
               <Layout>
                 <Settings />
               </Layout>

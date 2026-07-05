@@ -35,32 +35,45 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
       if (user) {
-        const docRef = doc(db, 'users', user.uid);
-        const docSnap = await getDoc(docRef);
-        
-        if (docSnap.exists()) {
-          const data = docSnap.data() as UserProfile;
-          // Auto-upgrade members to admin for this demo/SaaS owner context
-          if (data.role === 'member') {
-            const updatedProfile = { ...data, role: 'admin' as const };
-            await updateDoc(docRef, { role: 'admin' });
-            setProfile(updatedProfile);
+        try {
+          const docRef = doc(db, 'users', user.uid);
+          const docSnap = await getDoc(docRef);
+          
+          if (docSnap.exists()) {
+            const data = docSnap.data() as UserProfile;
+            // Auto-upgrade members to admin for this demo/SaaS owner context
+            if (data.role === 'member') {
+              const updatedProfile = { ...data, role: 'admin' as const };
+              await updateDoc(docRef, { role: 'admin' });
+              setProfile(updatedProfile);
+            } else {
+              setProfile(data);
+            }
           } else {
-            setProfile(data);
+            // Default profile for new users (e.g. from Google Sign-In)
+            const newProfile: UserProfile = {
+              uid: user.uid,
+              email: user.email || '',
+              displayName: user.displayName || '',
+              photoURL: user.photoURL || '',
+              role: 'admin', // Default role (Admin for demo/SaaS owner)
+              gymId: 'default-gym', // Default gym
+              createdAt: new Date().toISOString(),
+            };
+            await setDoc(docRef, newProfile);
+            setProfile(newProfile);
           }
-        } else {
-          // Default profile for new users (e.g. from Google Sign-In)
-          const newProfile: UserProfile = {
+        } catch (error) {
+          console.error("Error loading/provisioning user profile:", error);
+          // Fallback user profile in case of network or permissions issue so the app doesn't freeze
+          setProfile({
             uid: user.uid,
             email: user.email || '',
             displayName: user.displayName || '',
             photoURL: user.photoURL || '',
-            role: 'admin', // Default role (Admin for demo/SaaS owner)
-            gymId: 'default-gym', // Default gym
-            createdAt: new Date().toISOString(),
-          };
-          await setDoc(docRef, newProfile);
-          setProfile(newProfile);
+            role: 'admin',
+            gymId: 'default-gym',
+          });
         }
       } else {
         setProfile(null);

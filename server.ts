@@ -87,7 +87,7 @@ async function startServer() {
         return res.status(400).json({ error: "Gemini API key is is missing. Please set it in Settings > Secrets." });
       }
 
-      const prompt = `You are an elite International Gymnasium Business Consultant. Analyze these real-time SaaS facts for "CV Fitness Zone":
+      const prompt = `You are an elite International Gymnasium Business Consultant. Analyze these real-time SaaS facts for "C Vidya Fitness Zone":
       - Total Registered Members: ${membersCount || 0}
       - Total Current Monthly Revenue: ₹${paymentsSum || 0}
       - Active Workout Check-ins Count: ${stats?.activeMembers || 0}
@@ -136,7 +136,7 @@ async function startServer() {
   // 5. GET /api/backup - Multi-System Database Backup Utility
   app.get("/api/backup", (req, res) => {
     const mockBackupPayload = {
-      softwareName: "CV Fitness Zone",
+      softwareName: "C Vidya Fitness Zone",
       exportTime: new Date().toISOString(),
       backupId: `FB-${Math.floor(100000 + Math.random() * 900000)}`,
       status: "SUCCESSFUL_SECURE_EXPORT",
@@ -152,9 +152,9 @@ async function startServer() {
     const formattedPhone = phone || '+91 XXXXX XXXXX';
     return res.json({
       success: true,
-      sender: "CV Fitness Zone WhatsApp API Cloud Server",
+      sender: "C Vidya Fitness Zone WhatsApp API Cloud Server",
       recipient: formattedPhone,
-      messageLog: `Alert to ${memberName || 'Member'}: ${customText || 'Friendly reminder from CV Fitness Zone.'}`,
+      messageLog: `Alert to ${memberName || 'Member'}: ${customText || 'Friendly reminder from C Vidya Fitness Zone.'}`,
       timestamp: new Date().toISOString(),
       status: "DELIVERED_SUCCESSFULLY"
     });
@@ -177,7 +177,7 @@ async function startServer() {
   }
 
   app.listen(PORT, "0.0.0.0", () => {
-    console.log(`[CV Fitness Zone OS] custom full-stack server running on http://localhost:${PORT}`);
+    console.log(`[C Vidya Fitness Zone OS] custom full-stack server running on http://localhost:${PORT}`);
   });
 }
 
