@@ -238,8 +238,8 @@ export function PrivacyPolicy() {
                 <a href="mailto:cvidyasolutions@gmail.com" className="flex items-center gap-2 justify-center px-5 py-3 bg-zinc-800 border border-zinc-700 hover:border-red-600/50 hover:bg-zinc-800/80 rounded-xl text-xs font-black uppercase tracking-wider text-white transition-all">
                   <Mail className="w-4 h-4 text-red-500" /> cvidyasolutions@gmail.com
                 </a>
-                <a href="tel:+918987766981" className="flex items-center gap-2 justify-center px-5 py-3 bg-zinc-800 border border-zinc-700 hover:border-red-600/50 hover:bg-zinc-800/80 rounded-xl text-xs font-black uppercase tracking-wider text-white transition-all">
-                  <Phone className="w-4 h-4 text-red-500" /> +91 89877 66981
+                <a href="tel:+919288517027" className="flex items-center gap-2 justify-center px-5 py-3 bg-zinc-800 border border-zinc-700 hover:border-red-600/50 hover:bg-zinc-800/80 rounded-xl text-xs font-black uppercase tracking-wider text-white transition-all">
+                  <Phone className="w-4 h-4 text-red-500" /> +91 92885 17027
                 </a>
               </div>
             </div>
@@ -264,7 +264,7 @@ export function PrivacyPolicy() {
               </div>
               <div className="flex items-center gap-3 justify-center md:justify-start text-xs font-bold uppercase tracking-[0.1em] text-zinc-300">
                 <Phone className="w-4 h-4 text-red-600" />
-                <a href="tel:+918987766981" className="hover:text-red-500 transition-colors">+91 89877 66981</a>
+                <a href="tel:+919288517027" className="hover:text-red-500 transition-colors">+91 92885 17027</a>
               </div>
             </div>
           </div>

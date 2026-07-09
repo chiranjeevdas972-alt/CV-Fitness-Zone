@@ -406,7 +406,7 @@ export function Landing() {
               </div>
               <div className="flex items-center gap-3 justify-center md:justify-start text-xs font-bold uppercase tracking-[0.1em] text-zinc-300">
                 <Phone className="w-4 h-4 text-red-600" />
-                <a href="tel:+918987766981" className="hover:text-red-500 transition-colors">+91 89877 66981</a>
+                <a href="tel:+919288517027" className="hover:text-red-500 transition-colors">+91 92885 17027</a>
               </div>
             </div>
           </div>
