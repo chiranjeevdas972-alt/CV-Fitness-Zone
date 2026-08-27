@@ -359,7 +359,7 @@ export function Settings() {
                     <span className="text-[10px] font-black uppercase tracking-widest text-red-600">Current Plan</span>
                   </div>
                   <h3 className="text-4xl font-black uppercase italic italic italic tracking-tighter mb-2">{gymSettings.subscription || 'Enterprise'}</h3>
-                  <p className="text-zinc-500 font-medium mb-8 max-w-sm">Enjoy full access to Iron Paradise ecosystem features.</p>
+                  <p className="text-zinc-500 font-medium mb-8 max-w-sm">Enjoy full access to C Vidya Fitness Zone ecosystem features.</p>
                   
                   <div className="flex items-center gap-8 border-t border-zinc-800 pt-8">
                     <div>

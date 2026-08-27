@@ -222,7 +222,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <div className="h-full flex flex-col">
           {/* Logo Section */}
           <div className="p-[22px] flex items-center bg-zinc-950 text-white select-none border-b border-zinc-800">
-            <h1 className="font-black text-lg tracking-wide uppercase text-zinc-100">Gym Management</h1>
+            <h1 className="font-black text-base tracking-wide uppercase text-zinc-100 truncate" title={gymName || 'C Vidya Fitness Zone'}>{gymName || 'C Vidya Fitness Zone'}</h1>
           </div>
 
           {/* Navigation */}
