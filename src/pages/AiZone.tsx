@@ -397,7 +397,7 @@ export function AiZone() {
   let bmiCategory = 'Unspecified';
   let bmiColor = 'text-zinc-550 border-zinc-500';
   if (bmiVal) {
-    if (bmiVal < 18.5) { bmiCategory = 'Underweight'; bmiColor = 'text-blue-500 border-blue-500 bg-blue-500/10'; }
+    if (bmiVal < 18.5) { bmiCategory = 'Underweight'; bmiColor = 'text-zinc-400 border-zinc-500 bg-zinc-800/50'; }
     else if (bmiVal < 25) { bmiCategory = 'Normal Weight'; bmiColor = 'text-green-500 border-green-500 bg-green-500/10'; }
     else if (bmiVal < 30) { bmiCategory = 'Overweight'; bmiColor = 'text-orange-500 border-orange-500 bg-orange-500/10'; }
     else { bmiCategory = 'Obese'; bmiColor = 'text-red-500 border-red-500 bg-red-500/10'; }

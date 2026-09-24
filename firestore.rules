@@ -220,7 +220,8 @@ service cloud.firestore {
     }
 
     match /contactMessages/{id} {
-      allow read, write: if isBypassUser() || isAdmin() || isStaff() || true;
+      allow create: if true;
+      allow read, update, delete: if isBypassUser() || isAdmin() || isStaff();
     }
   }
 }

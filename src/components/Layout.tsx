@@ -369,15 +369,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
       {/* Main Content */}
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
         {/* Header */}
-        <header className="h-20 flex items-center justify-between px-8 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border-b border-zinc-200 dark:border-zinc-800 sticky top-0 z-30">
-          <div className="flex items-center gap-4">
+        <header className="h-16 sm:h-20 flex items-center justify-between px-4 sm:px-8 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border-b border-zinc-200 dark:border-zinc-800 sticky top-0 z-30">
+          <div className="flex items-center gap-3 sm:gap-4">
             <button 
-              className="lg:hidden p-2.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl transition-colors"
+              className="lg:hidden p-2 sm:p-2.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl transition-colors cursor-pointer"
               onClick={() => setIsSidebarOpen(true)}
+              aria-label="Open navigation menu"
             >
-              <Menu className="w-6 h-6" />
+              <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
-            <h2 className="text-lg font-black uppercase italic tracking-tight hidden sm:block">
+            <h2 className="text-base sm:text-lg font-black uppercase italic tracking-tight truncate max-w-[200px] sm:max-w-none">
               {(() => {
                 const currentFullPath = location.pathname + location.search;
                 const matchedSubItem = navItems.flatMap(item => item.subItems || []).find(sub => sub.path === currentFullPath || sub.path === location.pathname);
@@ -388,23 +389,24 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </h2>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
-              className="p-2.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl transition-all duration-300 hover:rotate-12"
+              className="p-2 sm:p-2.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl transition-all duration-300 hover:rotate-12 cursor-pointer"
+              aria-label="Toggle theme"
             >
-              {isDarkMode ? <Sun className="w-5 h-5 text-yellow-500" /> : <Moon className="w-5 h-5 text-zinc-600" />}
+              {isDarkMode ? <Sun className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-500" /> : <Moon className="w-4 h-4 sm:w-5 sm:h-5 text-zinc-600" />}
             </button>
             
-            <div className="hidden sm:flex items-center gap-3 pl-4 border-l border-zinc-200 dark:border-zinc-800">
-              <div className="w-10 h-10 rounded-xl bg-red-600 flex items-center justify-center text-white font-black shadow-lg shadow-red-600/20">
-                {profile?.displayName?.charAt(0)}
+            <div className="flex items-center gap-2 sm:gap-3 pl-2 sm:pl-4 border-l border-zinc-200 dark:border-zinc-800">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-red-600 flex items-center justify-center text-white font-black text-xs sm:text-base shadow-lg shadow-red-600/20">
+                {profile?.displayName?.charAt(0) || 'U'}
               </div>
             </div>
           </div>
         </header>
 
-        <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}

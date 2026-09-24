@@ -228,19 +228,25 @@ export function Shop() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 bg-white text-zinc-900">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-zinc-900/50 p-8 rounded-[2.5rem] border border-zinc-200 dark:border-zinc-800">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 sm:p-8 rounded-[2.5rem] border border-zinc-200 shadow-md">
         <div>
-          <h1 className="text-3xl font-black uppercase italic tracking-tighter mb-2">Supplement Zone</h1>
-          <p className="text-zinc-500 font-medium">Fuel your growth with our premium selection of supplements.</p>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-yellow-100 border border-yellow-300 rounded-full text-yellow-800 text-[10px] font-black uppercase tracking-[0.2em] mb-2 shadow-sm">
+            <Zap className="w-3 h-3 text-yellow-600 fill-yellow-500" />
+            Official Gym Supplement Store
+          </div>
+          <h1 className="text-3xl font-black uppercase italic tracking-tighter text-zinc-950">
+            Supplement <span className="text-blue-600">Zone</span>
+          </h1>
+          <p className="text-zinc-600 font-semibold text-sm">Fuel your growth with our premium selection of certified fitness supplements.</p>
         </div>
-        <div className="flex bg-white dark:bg-zinc-800 p-1.5 rounded-2xl border border-zinc-200 dark:border-zinc-700 overflow-x-auto no-scrollbar">
+        <div className="flex bg-zinc-100 p-1.5 rounded-2xl border border-zinc-200 overflow-x-auto no-scrollbar shadow-sm">
           <button
             onClick={() => updateCategory('all')}
             className={cn(
-              "px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap",
-              selectedCategory === 'all' ? "bg-red-600 text-white shadow-lg" : "text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
+              "px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap cursor-pointer",
+              selectedCategory === 'all' ? "bg-blue-600 text-white shadow-md" : "text-zinc-600 hover:text-zinc-950"
             )}
           >
             All
@@ -248,8 +254,8 @@ export function Shop() {
           <button
             onClick={() => updateCategory('gain')}
             className={cn(
-              "px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap",
-              selectedCategory === 'gain' ? "bg-red-600 text-white shadow-lg" : "text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
+              "px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap cursor-pointer",
+              selectedCategory === 'gain' ? "bg-blue-600 text-white shadow-md" : "text-zinc-600 hover:text-zinc-950"
             )}
           >
             Gain
@@ -257,8 +263,8 @@ export function Shop() {
           <button
             onClick={() => updateCategory('loss')}
             className={cn(
-              "px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap",
-              selectedCategory === 'loss' ? "bg-red-600 text-white shadow-lg" : "text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
+              "px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap cursor-pointer",
+              selectedCategory === 'loss' ? "bg-blue-600 text-white shadow-md" : "text-zinc-600 hover:text-zinc-950"
             )}
           >
             Loss
@@ -266,8 +272,8 @@ export function Shop() {
           <button
             onClick={() => updateCategory('recovery')}
             className={cn(
-              "px-6 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap",
-              selectedCategory === 'recovery' ? "bg-red-600 text-white shadow-lg" : "text-zinc-500 hover:text-zinc-900 dark:hover:text-white"
+              "px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap cursor-pointer",
+              selectedCategory === 'recovery' ? "bg-blue-600 text-white shadow-md" : "text-zinc-600 hover:text-zinc-950"
             )}
           >
             Recovery
@@ -283,29 +289,29 @@ export function Shop() {
             layout
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="group bg-white dark:bg-zinc-900 rounded-[2.5rem] border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500"
+            className="group bg-white rounded-[2.5rem] border border-zinc-200 overflow-hidden shadow-lg hover:shadow-2xl hover:border-blue-500/50 transition-all duration-300"
           >
             <div className="flex flex-col xl:flex-row h-full">
               {/* Image Section */}
               <button
                 onClick={() => setSelectedProduct(product)}
-                className="relative w-full xl:w-72 h-72 xl:h-auto overflow-hidden text-left focus:outline-none focus:ring-2 focus:ring-red-650 block group cursor-pointer"
+                className="relative w-full xl:w-72 h-72 xl:h-auto overflow-hidden text-left focus:outline-none focus:ring-2 focus:ring-blue-600 block group cursor-pointer bg-zinc-50"
               >
                 <img
                   src={product.image}
                   alt={product.name}
-                  className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   referrerPolicy="no-referrer"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex items-end p-6">
-                  <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md px-3 py-1.5 rounded-full border border-white/20">
-                    <Star className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" />
-                    <span className="text-white text-xs font-black tracking-widest">{product.rating}</span>
+                  <div className="flex items-center gap-1.5 bg-yellow-400 text-zinc-950 px-3 py-1 rounded-full shadow-md font-black text-xs">
+                    <Star className="w-3.5 h-3.5 text-zinc-950 fill-zinc-950" />
+                    <span>{product.rating}</span>
                   </div>
                 </div>
                 {/* Visual indicator explaining details load on click */}
-                <div className="absolute top-4 right-4 bg-red-600/90 text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  ⚡ View Details
+                <div className="absolute top-4 right-4 bg-blue-600 text-white text-[10px] font-black uppercase tracking-widest px-3 py-1.5 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 shadow-md">
+                  ⚡ Details
                 </div>
               </button>
 
@@ -314,44 +320,44 @@ export function Shop() {
                 <div>
                   <div className="flex items-center gap-2 mb-3">
                     {product.category === 'gain' ? (
-                      <div className="flex items-center gap-1.5 px-3 py-1 bg-green-100 dark:bg-green-900/20 text-green-600 rounded-full text-[10px] font-black uppercase tracking-widest">
+                      <div className="flex items-center gap-1.5 px-3 py-1 bg-yellow-100 text-yellow-800 border border-yellow-300 rounded-full text-[10px] font-black uppercase tracking-widest">
                         <TrendingUp className="w-3 h-3" />
                         Mass Gain
                       </div>
                     ) : (
-                      <div className="flex items-center gap-1.5 px-3 py-1 bg-blue-100 dark:bg-blue-900/20 text-blue-600 rounded-full text-[10px] font-black uppercase tracking-widest">
+                      <div className="flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-full text-[10px] font-black uppercase tracking-widest">
                         <TrendingDown className="w-3 h-3" />
                         Weight Loss
                       </div>
                     )}
                   </div>
-                  <h3 className="text-2xl font-black uppercase italic tracking-tighter mb-2 group-hover:text-red-600 transition-colors">
+                  <h3 className="text-2xl font-black uppercase italic tracking-tighter mb-2 text-zinc-950 group-hover:text-blue-600 transition-colors">
                     {product.name}
                   </h3>
-                  <p className="text-zinc-500 text-sm font-medium leading-relaxed">
+                  <p className="text-zinc-600 text-sm font-medium leading-relaxed">
                     {product.description}
                   </p>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   {product.features.map((feature, i) => (
-                    <div key={i} className="flex items-center gap-2 text-[11px] font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wide">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-red-600" />
-                      {feature}
+                    <div key={i} className="flex items-center gap-2 text-[11px] font-bold text-zinc-700 uppercase tracking-wide">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                      <span>{feature}</span>
                     </div>
                   ))}
                 </div>
 
-                <div className="flex items-center justify-between pt-6 border-t border-zinc-100 dark:border-zinc-800">
+                <div className="flex items-center justify-between pt-6 border-t border-zinc-100">
                   <div className="flex flex-col">
-                    <span className="text-zinc-400 text-[10px] font-black uppercase tracking-widest">Price</span>
-                    <span className="text-3xl font-black tracking-tighter italic">₹{product.price}</span>
+                    <span className="text-zinc-500 text-[10px] font-black uppercase tracking-widest">Price</span>
+                    <span className="text-3xl font-black tracking-tighter italic text-zinc-950">₹{product.price}</span>
                   </div>
                   <Button 
                     onClick={() => handlePurchase(product)}
-                    className="px-8 py-4 bg-red-600 hover:bg-black text-white transition-all transform hover:scale-105 active:scale-95 group/btn"
+                    className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-wider text-xs transition-all shadow-md shadow-blue-600/25 group/btn cursor-pointer"
                   >
-                    <ShoppingCart className="w-4 h-4 mr-2 group-hover/btn:-translate-y-1 transition-transform" />
+                    <ShoppingCart className="w-4 h-4 mr-2 group-hover/btn:-translate-y-0.5 transition-transform" />
                     Buy Now
                   </Button>
                 </div>
@@ -393,26 +399,26 @@ export function Shop() {
       {/* Product Details Modal Overlay */}
       {selectedProduct && (
         <div 
-          className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12 bg-black/80 backdrop-blur-md"
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-12 bg-black/75 backdrop-blur-sm"
           onClick={() => setSelectedProduct(null)}
         >
           <motion.div 
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            className="relative w-full max-w-3xl bg-white dark:bg-zinc-900 rounded-[2.5rem] overflow-hidden border border-zinc-200 dark:border-zinc-800 shadow-2xl flex flex-col md:flex-row"
+            className="relative w-full max-w-3xl bg-white rounded-[2.5rem] overflow-hidden border border-zinc-200 shadow-2xl flex flex-col md:flex-row text-zinc-900"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Left Image Section inside modal */}
-            <div className="relative w-full md:w-[45%] h-64 md:h-[480px] overflow-hidden bg-zinc-100 dark:bg-zinc-950">
+            <div className="relative w-full md:w-[45%] h-64 md:h-[480px] overflow-hidden bg-zinc-50">
               <img
                 src={selectedProduct.image}
                 alt={selectedProduct.name}
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
               />
-              <div className="absolute top-4 left-4 flex items-center gap-1.5 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md px-3 py-1 rounded-full border border-zinc-200 dark:border-zinc-750">
-                <Star className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" />
-                <span className="text-zinc-950 dark:text-white text-xs font-black tracking-widest">{selectedProduct.rating}</span>
+              <div className="absolute top-4 left-4 flex items-center gap-1.5 bg-yellow-400 text-zinc-950 px-3 py-1 rounded-full shadow-md font-black text-xs">
+                <Star className="w-3.5 h-3.5 text-zinc-950 fill-zinc-950" />
+                <span>{selectedProduct.rating}</span>
               </div>
             </div>
 
@@ -421,49 +427,49 @@ export function Shop() {
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   {selectedProduct.category === 'gain' ? (
-                    <div className="flex items-center gap-1.5 px-3 py-1 bg-green-100 dark:bg-green-900/20 text-green-650 rounded-full text-[10px] font-black uppercase tracking-widest">
+                    <div className="flex items-center gap-1.5 px-3 py-1 bg-yellow-100 text-yellow-800 border border-yellow-300 rounded-full text-[10px] font-black uppercase tracking-widest">
                       <TrendingUp className="w-3 h-3" />
                       Mass Gain
                     </div>
                   ) : (
-                    <div className="flex items-center gap-1.5 px-3 py-1 bg-blue-100 dark:bg-blue-900/20 text-blue-650 rounded-full text-[10px] font-black uppercase tracking-widest">
+                    <div className="flex items-center gap-1.5 px-3 py-1 bg-blue-50 text-blue-700 border border-blue-200 rounded-full text-[10px] font-black uppercase tracking-widest">
                       <TrendingDown className="w-3 h-3" />
                       Weight Loss
                     </div>
                   )}
                   <button 
                     onClick={() => setSelectedProduct(null)}
-                    className="text-xs font-black uppercase tracking-widest text-zinc-400 hover:text-red-600 transition-colors"
+                    className="text-xs font-black uppercase tracking-widest text-zinc-500 hover:text-zinc-950 transition-colors cursor-pointer"
                   >
                     Close [✕]
                   </button>
                 </div>
 
-                <h3 className="text-2xl font-black uppercase italic tracking-tighter text-zinc-900 dark:text-white">
+                <h3 className="text-2xl font-black uppercase italic tracking-tighter text-zinc-950">
                   {selectedProduct.name}
                 </h3>
                 
-                <p className="text-zinc-500 text-sm leading-relaxed">
+                <p className="text-zinc-600 text-sm leading-relaxed font-medium">
                   {selectedProduct.description}
                 </p>
 
                 <div className="space-y-2 pt-2">
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-400">Formula Highlights</h4>
+                  <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-500">Formula Highlights</h4>
                   <div className="grid grid-cols-2 gap-2">
                     {selectedProduct.features.map((feature, i) => (
-                      <div key={i} className="flex items-center gap-2 text-[11px] font-bold text-zinc-600 dark:text-zinc-400 uppercase tracking-wide">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-red-600" />
-                        {feature}
+                      <div key={i} className="flex items-center gap-2 text-[11px] font-bold text-zinc-700 uppercase tracking-wide">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-blue-600 shrink-0" />
+                        <span>{feature}</span>
                       </div>
                     ))}
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center justify-between pt-6 border-t border-zinc-150 dark:border-zinc-800">
+              <div className="flex items-center justify-between pt-6 border-t border-zinc-200">
                 <div className="flex flex-col">
-                  <span className="text-zinc-450 text-[10px] font-black uppercase tracking-widest">Pricing Model</span>
-                  <span className="text-3xl font-black tracking-tighter italic text-zinc-950 dark:text-white">₹{selectedProduct.price}</span>
+                  <span className="text-zinc-500 text-[10px] font-black uppercase tracking-widest">Pricing</span>
+                  <span className="text-3xl font-black tracking-tighter italic text-zinc-950">₹{selectedProduct.price}</span>
                 </div>
                 
                 <div className="flex items-center gap-2">
@@ -473,7 +479,7 @@ export function Shop() {
                         setActiveVideo(selectedProduct.videoUrl);
                         setSelectedProduct(null);
                       }}
-                      className="p-3.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-red-600 hover:text-white dark:hover:bg-red-600 transition-all rounded-2xl block"
+                      className="p-3.5 bg-zinc-100 hover:bg-blue-600 hover:text-white transition-all rounded-2xl block text-zinc-700 cursor-pointer"
                       title="Play Tutorial Video"
                     >
                       <Play className="w-5 h-5 fill-current" />
@@ -484,7 +490,7 @@ export function Shop() {
                       handlePurchase(selectedProduct);
                       setSelectedProduct(null);
                     }}
-                    className="px-6 py-3 bg-red-600 hover:bg-black text-white hover:scale-105 active:scale-95 transition-all text-xs font-black uppercase tracking-widest rounded-2xl"
+                    className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-wider text-xs rounded-2xl shadow-md shadow-blue-600/25 cursor-pointer"
                   >
                     Buy Now
                   </Button>
@@ -497,25 +503,25 @@ export function Shop() {
       )}
 
       {/* Info Section */}
-      <div className="bg-red-600 rounded-[2.5rem] p-12 text-white overflow-hidden relative">
+      <div className="bg-blue-600 rounded-[2.5rem] p-8 sm:p-12 text-white overflow-hidden relative shadow-xl shadow-blue-600/20">
         <div className="relative z-10 max-w-2xl">
           <div className="w-12 h-12 bg-white/20 rounded-2xl flex items-center justify-center mb-6 backdrop-blur-md border border-white/30">
             <Info className="w-6 h-6" />
           </div>
-          <h2 className="text-4xl font-black uppercase italic tracking-tighter mb-4">Expert Training Content</h2>
-          <p className="text-white/80 font-medium leading-relaxed text-lg mb-8">
+          <h2 className="text-3xl sm:text-4xl font-black uppercase italic tracking-tighter mb-4">Expert Training Content</h2>
+          <p className="text-white/90 font-medium leading-relaxed text-base sm:text-lg mb-8">
             Every product purchase unlocks exclusive training videos curated by our professional instructors. Learn the right techniques to maximize your results.
           </p>
           <div className="flex flex-wrap gap-4">
-            <div className="bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/20 font-black uppercase text-xs tracking-widest">
+            <div className="bg-yellow-400 text-zinc-950 px-6 py-3 rounded-2xl font-black uppercase text-xs tracking-widest shadow-md">
               Meal Plans included
             </div>
-            <div className="bg-white/10 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/20 font-black uppercase text-xs tracking-widest">
+            <div className="bg-white/20 backdrop-blur-md px-6 py-3 rounded-2xl border border-white/30 font-black uppercase text-xs tracking-widest text-white">
               Weekly progress check
             </div>
           </div>
         </div>
-        <Dumbbell className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/4 w-[500px] h-[500px] text-white/5 rotate-12" />
+        <Dumbbell className="absolute top-1/2 right-0 -translate-y-1/2 translate-x-1/4 w-[500px] h-[500px] text-white/10 rotate-12 pointer-events-none" />
       </div>
     </div>
   );

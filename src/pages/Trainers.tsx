@@ -1166,7 +1166,7 @@ export function Trainers() {
                       <span className={cn(
                         "text-[9px] px-2 py-0.5 rounded font-black uppercase ml-2",
                         n.status === 'Excellent' ? "bg-green-500/10 text-green-600" : 
-                        n.status === 'Stable' ? "bg-blue-500/10 text-blue-600" : "bg-orange-500/10 text-orange-600"
+                        n.status === 'Stable' ? "bg-emerald-500/10 text-emerald-600" : "bg-orange-500/10 text-orange-600"
                       )}>
                         {n.status}
                       </span>

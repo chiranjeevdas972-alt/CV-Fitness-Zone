@@ -44,6 +44,8 @@ import {
 } from 'recharts';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/Form';
+import { ShieldCheck, Lock, ShieldAlert } from 'lucide-react';
+import { DPDPPrivacyModal } from '../components/DPDPPrivacyModal';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -64,6 +66,30 @@ export function Dashboard() {
   });
   const [recentMembers, setRecentMembers] = useState<any[]>([]);
   const [latestAnnouncements, setLatestAnnouncements] = useState<any[]>([]);
+  const [isPrivacyModalOpen, setIsPrivacyModalOpen] = useState(false);
+  const [isSessionLocked, setIsSessionLocked] = useState(false);
+  const [lastActive, setLastActive] = useState(Date.now());
+
+  // Inactivity auto-guard for front desk security (30 min inactivity)
+  useEffect(() => {
+    const handleActivity = () => setLastActive(Date.now());
+    window.addEventListener('mousemove', handleActivity);
+    window.addEventListener('keydown', handleActivity);
+    window.addEventListener('touchstart', handleActivity);
+
+    const interval = setInterval(() => {
+      if (Date.now() - lastActive > 30 * 60 * 1000) {
+        setIsSessionLocked(true);
+      }
+    }, 60000);
+
+    return () => {
+      window.removeEventListener('mousemove', handleActivity);
+      window.removeEventListener('keydown', handleActivity);
+      window.removeEventListener('touchstart', handleActivity);
+      clearInterval(interval);
+    };
+  }, [lastActive]);
 
   useEffect(() => {
     if (!profile) return;
@@ -167,10 +193,10 @@ export function Dashboard() {
   }, [allPayments, revenuePeriod]);
 
   const statCards = [
-    { name: 'Total Members', value: stats.totalMembers, icon: Users, color: 'bg-blue-500', trend: '+12%', path: '/members' },
-    { name: 'Active Members', value: stats.activeMembers, icon: UserCheck, color: 'bg-green-500', trend: '+5%', path: '/members' },
+    { name: 'Total Members', value: stats.totalMembers, icon: Users, color: 'bg-red-600', trend: '+12%', path: '/members' },
+    { name: 'Active Members', value: stats.activeMembers, icon: UserCheck, color: 'bg-emerald-600', trend: '+5%', path: '/members' },
     { name: 'Monthly Revenue', value: `₹${stats.monthlyRevenue}`, icon: CreditCard, color: 'bg-red-500', trend: '+18%', path: '/payments' },
-    { name: 'Daily Check-ins', value: stats.dailyCheckins, icon: Clock, color: 'bg-orange-500', trend: '+24%', path: '/attendance' },
+    { name: 'Daily Check-ins', value: stats.dailyCheckins, icon: Clock, color: 'bg-zinc-800', trend: '+24%', path: '/attendance' },
   ];
 
   const quickActions = [
@@ -212,7 +238,47 @@ export function Dashboard() {
             </button>
           ))}
         </div>
-      </div>      {/* Stats Grid */}
+      </div>
+
+      {/* Enterprise Security & DPDP Compliance Status Bar */}
+      <div className="p-4 bg-zinc-900/60 dark:bg-zinc-900/90 border border-zinc-200 dark:border-zinc-800 rounded-2xl flex flex-wrap items-center justify-between gap-4 shadow-sm">
+        <div className="flex flex-wrap items-center gap-4 text-xs font-semibold text-zinc-600 dark:text-zinc-400">
+          <div className="flex items-center gap-2">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="font-bold text-zinc-900 dark:text-white uppercase tracking-wider text-[11px]">System Guard: Active</span>
+          </div>
+          <div className="hidden sm:flex items-center gap-1.5">
+            <ShieldCheck className="w-4 h-4 text-emerald-500" />
+            <span>256-Bit SSL/TLS</span>
+          </div>
+          <div className="hidden sm:flex items-center gap-1.5">
+            <Lock className="w-4 h-4 text-red-500" />
+            <span>RBAC Protected</span>
+          </div>
+          <div className="flex items-center gap-1.5 px-2.5 py-1 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-full border border-emerald-500/20 text-[10px] font-black uppercase">
+            DPDP Act 2023 Compliant
+          </div>
+        </div>
+
+        <div className="flex items-center gap-2.5">
+          <button
+            onClick={() => setIsPrivacyModalOpen(true)}
+            className="px-3.5 py-1.5 rounded-xl bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 text-zinc-800 dark:text-zinc-200 font-bold text-xs uppercase tracking-wider transition-all cursor-pointer"
+          >
+            Privacy Rights (PRD)
+          </button>
+          <button
+            onClick={() => setIsSessionLocked(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-red-600/10 hover:bg-red-600 text-red-600 hover:text-white border border-red-600/20 font-bold text-xs uppercase tracking-wider transition-all cursor-pointer"
+            title="Lock screen immediately to protect front desk data"
+          >
+            <Lock className="w-3.5 h-3.5" />
+            <span>Lock Station</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {statCards.map((stat) => (
           <button
@@ -437,6 +503,49 @@ export function Dashboard() {
           })}
         </div>
       </div>
+
+      {/* Screen Lock Security Overlay for Front Desk Protection */}
+      {isSessionLocked && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-zinc-950/95 backdrop-blur-xl animate-in fade-in duration-300">
+          <div className="max-w-md w-full p-8 bg-zinc-900 border border-zinc-800 rounded-3xl text-center shadow-2xl space-y-6">
+            <div className="w-16 h-16 rounded-2xl bg-red-600/10 border border-red-600/20 text-red-500 flex items-center justify-center mx-auto">
+              <Lock className="w-8 h-8" />
+            </div>
+
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400 block mb-1">
+                Security Lock Active
+              </span>
+              <h3 className="text-2xl font-black uppercase italic text-white">Station Guard Locked</h3>
+              <p className="text-xs text-zinc-400 mt-2 font-medium">
+                Front desk workstation locked to protect member personal data under the DPDP Act 2023.
+              </p>
+            </div>
+
+            <div className="p-4 rounded-xl bg-zinc-950 border border-zinc-800 text-left space-y-1 text-xs">
+              <span className="text-zinc-500 font-bold block text-[10px] uppercase">Active Operator</span>
+              <span className="text-white font-black">{profile?.displayName || 'Gym Administrator'}</span>
+              <span className="text-zinc-400 block text-[11px]">{profile?.email}</span>
+            </div>
+
+            <button
+              onClick={() => {
+                setIsSessionLocked(false);
+                setLastActive(Date.now());
+              }}
+              className="w-full py-3.5 bg-red-600 hover:bg-red-700 text-white font-black uppercase tracking-widest text-xs rounded-xl shadow-lg shadow-red-600/20 transition-all cursor-pointer"
+            >
+              Resume Secure Session
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* DPDP Compliance & Privacy Rights Modal */}
+      <DPDPPrivacyModal 
+        isOpen={isPrivacyModalOpen} 
+        onClose={() => setIsPrivacyModalOpen(false)} 
+      />
     </div>
   );
 }

@@ -567,7 +567,7 @@ export function ReportsCrm() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                     <div className="p-5 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl">
                       <div className="flex items-center justify-between text-zinc-400 mb-2">
-                        <Users className="w-5 h-5 text-blue-500" />
+                        <Users className="w-5 h-5 text-red-500" />
                         <span className="text-[10px] font-black tracking-widest">REGISTRY</span>
                       </div>
                       <h4 className="text-3xl font-black">{dashboardStats.total}</h4>
@@ -785,7 +785,7 @@ export function ReportsCrm() {
                     </div>
                     <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6">
                       <h4 className="text-[10px] font-black uppercase tracking-widest text-zinc-450 mb-1">Operational Net Profit</h4>
-                      <h3 className="text-3xl font-black text-blue-500">₹{Math.floor(dashboardStats.revenue * 0.65)}</h3>
+                      <h3 className="text-3xl font-black text-emerald-500">₹{Math.floor(dashboardStats.revenue * 0.65)}</h3>
                       <p className="text-[10px] text-zinc-400 mt-2 font-bold uppercase">Net yield calculation margins</p>
                     </div>
                   </div>
@@ -1259,7 +1259,7 @@ export function ReportsCrm() {
                       <p className="text-zinc-550 leading-relaxed">Broadcast customized communications to all registered leads and club members simultaneously with one click.</p>
                       <div className="flex flex-wrap gap-2">
                         <button onClick={() => triggerBulkComms('WhatsApp', 'General Gym Broadcast')} className="px-3.5 py-2 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-all font-black uppercase text-[9px] tracking-wider">Bulk WhatsApp</button>
-                        <button onClick={() => triggerBulkComms('Email', 'General Newsletter broadcast')} className="px-3.5 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-all font-black uppercase text-[9px] tracking-wider">Bulk Email Broadcast</button>
+                        <button onClick={() => triggerBulkComms('Email', 'General Newsletter broadcast')} className="px-3.5 py-2 bg-red-600 text-white rounded-xl hover:bg-red-700 transition-all font-black uppercase text-[9px] tracking-wider">Bulk Email Broadcast</button>
                         <button onClick={() => triggerBulkComms('SMS', 'Text reminder alert')} className="px-3.5 py-2 bg-zinc-800 text-white rounded-xl hover:bg-zinc-900 transition-all font-black uppercase text-[9px] tracking-wider">SMS Blast</button>
                       </div>
                     </div>
@@ -1643,8 +1643,8 @@ export function ReportsCrm() {
 
         /* RESTRICTED TRAINEE/MEMBER PORTAL DASHBOARD */
         <div className="space-y-6 text-xs">
-          <div className="p-6 bg-blue-600/5 border border-blue-500/10 rounded-3xl text-sm leading-relaxed">
-            <span className="font-black text-blue-600 block uppercase mb-1">🏋️ TRAINEE SPACE CONFIRMED</span>
+          <div className="p-6 bg-red-600/5 border border-red-500/10 rounded-3xl text-sm leading-relaxed">
+            <span className="font-black text-red-600 block uppercase mb-1">🏋️ TRAINEE SPACE CONFIRMED</span>
             Your interactive trajectory tracker. Review your historic attendance logs, active package subscription levels, payment receipts and assigned weight progression tasks below.
           </div>
 

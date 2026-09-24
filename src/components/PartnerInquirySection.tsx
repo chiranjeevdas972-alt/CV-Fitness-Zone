@@ -134,7 +134,7 @@ export function PartnerInquirySection() {
       description: 'Acquire your own territory and launch a premium C Vidya Fitness Zone franchise branch with our proven tech stack and brand playbook.',
       badge: 'Aggressive Growth',
       icon: Building2,
-      accent: 'text-red-500 bg-red-600/10'
+      accent: 'text-blue-600 bg-blue-50'
     },
     {
       id: 'Corporate Wellness',
@@ -142,7 +142,7 @@ export function PartnerInquirySection() {
       description: 'Deploy executive-grade fitness and nutrition guidelines to keep your workforce high-performance, healthy, and highly motivated.',
       badge: 'For Employers',
       icon: Users,
-      accent: 'text-blue-500 bg-blue-600/10'
+      accent: 'text-yellow-700 bg-yellow-100'
     },
     {
       id: 'Guild Trainer',
@@ -150,7 +150,7 @@ export function PartnerInquirySection() {
       description: 'Are you a verified weight trainer, coach, or nutritionist? Team up with our premium network to scale your bookings and roster.',
       badge: 'Certified Pros',
       icon: Award,
-      accent: 'text-amber-500 bg-amber-600/10'
+      accent: 'text-blue-600 bg-blue-50'
     },
     {
       id: 'Vendor Partner',
@@ -158,7 +158,7 @@ export function PartnerInquirySection() {
       description: 'Integrate advanced hardware systems, cardio gear, premium supplements, or custom brand products directly into our shop ecosystem.',
       badge: 'Integrators',
       icon: Package,
-      accent: 'text-emerald-500 bg-emerald-600/10'
+      accent: 'text-yellow-700 bg-yellow-100'
     }
   ];
 
@@ -173,35 +173,32 @@ export function PartnerInquirySection() {
   };
 
   return (
-    <section id="partner-inquiry" className="py-24 bg-zinc-950 border-t border-zinc-900 overflow-hidden relative">
-      {/* Decorative background glows */}
-      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[35rem] h-[35rem] bg-red-600/5 blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[25rem] h-[25rem] bg-zinc-600/5 blur-[120px] rounded-full pointer-events-none" />
-
+    <section id="partner-inquiry" className="py-24 bg-white border-t border-zinc-200 text-zinc-900 overflow-hidden relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
         {/* Header Title Grid */}
         <div className="text-center mb-16">
-          <span className="inline-block px-4 py-1.5 bg-red-600/10 border border-red-600/20 rounded-full text-red-500 text-xs font-black uppercase tracking-[0.2em] mb-4">
-            Connect & Grow
-          </span>
-          <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase italic">
-            Partner With Us & <span className="text-red-600">Get in Touch</span>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-yellow-100 border border-yellow-300 rounded-full text-yellow-800 text-xs font-black uppercase tracking-[0.2em] mb-4 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-yellow-600 fill-yellow-500" />
+            Collaboration & Inquiries
+          </div>
+          <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase italic text-zinc-950">
+            <span className="text-yellow-500">Partner</span> With Us & <span className="text-blue-600">Get in Touch</span>
           </h2>
-          <p className="text-zinc-400 font-medium max-w-2xl mx-auto mt-4 text-base md:text-lg">
-            Whether you want to launch a world-class gym franchise, register employees for corporate plans, join as a trainer, or ask a general query—experience our unified full-stack support.
+          <p className="text-zinc-700 font-semibold max-w-2xl mx-auto mt-4 text-base md:text-lg">
+            Have questions about memberships or want to explore franchise collaborations? Reach out today.
           </p>
         </div>
 
         {/* Unified Interactive Tabs */}
         <div className="flex justify-center mb-12">
-          <div className="bg-zinc-900 border border-zinc-800 p-1.5 rounded-2xl flex gap-1">
+          <div className="bg-zinc-100 border border-zinc-200 p-1.5 rounded-2xl flex gap-1 shadow-sm">
             <button
               onClick={() => setActiveTab('inquiry')}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-black uppercase tracking-widest transition-all ${
+              className={`flex items-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-black uppercase tracking-widest transition-all cursor-pointer ${
                 activeTab === 'inquiry' 
-                  ? 'bg-red-600 text-white shadow-lg' 
-                  : 'text-zinc-400 hover:text-white'
+                  ? 'bg-blue-600 text-white shadow-md' 
+                  : 'text-zinc-600 hover:text-zinc-950'
               }`}
             >
               <MessageSquare className="w-4 h-4" />
@@ -209,10 +206,10 @@ export function PartnerInquirySection() {
             </button>
             <button
               onClick={() => setActiveTab('partner')}
-              className={`flex items-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-black uppercase tracking-widest transition-all ${
+              className={`flex items-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-black uppercase tracking-widest transition-all cursor-pointer ${
                 activeTab === 'partner' 
-                  ? 'bg-red-600 text-white shadow-lg' 
-                  : 'text-zinc-400 hover:text-white'
+                  ? 'bg-blue-600 text-white shadow-md' 
+                  : 'text-zinc-600 hover:text-zinc-950'
               }`}
             >
               <Handshake className="w-4 h-4" />
@@ -228,58 +225,58 @@ export function PartnerInquirySection() {
           <div className="lg:col-span-5 space-y-6">
             {activeTab === 'inquiry' ? (
               <div className="space-y-6">
-                <div className="p-8 bg-zinc-900/50 border border-zinc-800/80 rounded-3xl">
-                  <h3 className="text-2xl font-black uppercase italic text-white mb-4">India's Premiere Fitness Zone</h3>
-                  <p className="text-sm text-zinc-400 leading-relaxed font-medium mb-6">
+                <div className="p-8 bg-white border border-zinc-200 rounded-3xl shadow-md">
+                  <h3 className="text-2xl font-black uppercase italic text-zinc-950 mb-4">India's Premiere Fitness Zone</h3>
+                  <p className="text-sm text-zinc-700 leading-relaxed font-medium mb-6">
                     Our luxury facilities provide professional-grade cardio lines, advanced plate-loaded equipment, certified nutritional coaches, and highly responsive digital dashboard tracking tools.
                   </p>
                   
                   <ul className="space-y-4">
                     <li className="flex items-start gap-3">
-                      <div className="w-5 h-5 bg-red-600/10 rounded-full flex items-center justify-center mt-1">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-red-500" />
+                      <div className="w-6 h-6 bg-blue-50 border border-blue-100 rounded-full flex items-center justify-center mt-0.5 shrink-0">
+                        <CheckCircle2 className="w-4 h-4 text-blue-600" />
                       </div>
                       <div>
-                        <h4 className="text-sm font-bold text-white uppercase tracking-wider">Fast Turnaround</h4>
-                        <p className="text-xs text-zinc-500 mt-0.5">We reply back to all general client queries and member trial requests in under 24 business hours.</p>
+                        <h4 className="text-sm font-black text-zinc-950 uppercase tracking-wider">Fast Turnaround</h4>
+                        <p className="text-xs text-zinc-600 font-medium mt-0.5">We reply back to all general client queries and member trial requests in under 24 business hours.</p>
                       </div>
                     </li>
                     <li className="flex items-start gap-3">
-                      <div className="w-5 h-5 bg-red-600/10 rounded-full flex items-center justify-center mt-1">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-red-500" />
+                      <div className="w-6 h-6 bg-blue-50 border border-blue-100 rounded-full flex items-center justify-center mt-0.5 shrink-0">
+                        <CheckCircle2 className="w-4 h-4 text-blue-600" />
                       </div>
                       <div>
-                        <h4 className="text-sm font-bold text-white uppercase tracking-wider">Custom Tour & Trial Pass</h4>
-                        <p className="text-xs text-zinc-500 mt-0.5">Request a personalized fitness evaluation and gym floor walkthrough on us.</p>
+                        <h4 className="text-sm font-black text-zinc-950 uppercase tracking-wider">Custom Tour & Trial Pass</h4>
+                        <p className="text-xs text-zinc-600 font-medium mt-0.5">Request a personalized fitness evaluation and gym floor walkthrough on us.</p>
                       </div>
                     </li>
                     <li className="flex items-start gap-3">
-                      <div className="w-5 h-5 bg-red-600/10 rounded-full flex items-center justify-center mt-1">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-red-500" />
+                      <div className="w-6 h-6 bg-yellow-100 border border-yellow-300 rounded-full flex items-center justify-center mt-0.5 shrink-0">
+                        <CheckCircle2 className="w-4 h-4 text-yellow-700" />
                       </div>
                       <div>
-                        <h4 className="text-sm font-bold text-white uppercase tracking-wider">Secure Database Storage</h4>
-                        <p className="text-xs text-zinc-500 mt-0.5">Your phone numbers and emails are secured inside our private Firestore stack.</p>
+                        <h4 className="text-sm font-black text-zinc-950 uppercase tracking-wider">Secure Database Storage</h4>
+                        <p className="text-xs text-zinc-600 font-medium mt-0.5">Your phone numbers and emails are secured inside our private Firestore stack.</p>
                       </div>
                     </li>
                   </ul>
                 </div>
 
-                <div className="p-6 bg-zinc-900 border border-zinc-800 rounded-3xl flex items-center gap-4">
-                  <div className="w-12 h-12 bg-red-600/10 rounded-2xl flex items-center justify-center shrink-0">
-                    <Sparkles className="text-red-500 w-6 h-6" />
+                <div className="p-6 bg-white border border-zinc-200 rounded-3xl shadow-sm flex items-center gap-4">
+                  <div className="w-12 h-12 bg-yellow-100 border border-yellow-300 rounded-2xl flex items-center justify-center shrink-0">
+                    <Sparkles className="text-yellow-600 w-6 h-6" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-black uppercase italic tracking-wider">Trial Pass Campaign</h4>
-                    <p className="text-xs text-zinc-400 mt-1">Submit your details to start your custom digital locker training sequence today!</p>
+                    <h4 className="text-sm font-black uppercase italic tracking-wider text-zinc-950">Trial Pass Campaign</h4>
+                    <p className="text-xs text-zinc-600 font-medium mt-1">Submit your details to start your custom digital locker training sequence today!</p>
                   </div>
                 </div>
               </div>
             ) : (
               <div className="space-y-4">
                 <div className="mb-4">
-                  <h3 className="text-xl font-black uppercase italic text-zinc-400">Select a Collaboration Track:</h3>
-                  <p className="text-xs text-zinc-500 mt-1">Click any tier below to instantly adjust the partnership questionnaire.</p>
+                  <h3 className="text-xl font-black uppercase italic text-zinc-950">Select a Collaboration Track:</h3>
+                  <p className="text-xs text-zinc-600 font-medium mt-1">Click any tier below to instantly adjust the partnership questionnaire.</p>
                 </div>
                 {partnerTracks.map((track) => {
                   const IconComponent = track.icon;
@@ -290,8 +287,8 @@ export function PartnerInquirySection() {
                       onClick={() => handleTrackSelection(track.id)}
                       className={`p-6 rounded-2xl border transition-all duration-300 cursor-pointer ${
                         isSelected 
-                          ? 'bg-zinc-900 border-red-500 shadow-xl scale-[1.02]' 
-                          : 'bg-zinc-900/30 border-zinc-800/80 hover:border-zinc-700 hover:bg-zinc-900/50'
+                          ? 'bg-blue-50/50 border-2 border-blue-600 shadow-md scale-[1.01]' 
+                          : 'bg-white border-zinc-200 hover:border-blue-400 hover:shadow-sm'
                       }`}
                     >
                       <div className="flex items-start justify-between gap-4 mb-2">
@@ -299,19 +296,19 @@ export function PartnerInquirySection() {
                           <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${track.accent}`}>
                             <IconComponent className="w-5 h-5" />
                           </div>
-                          <h4 className="text-sm font-black uppercase italic text-white tracking-wider">{track.title}</h4>
+                          <h4 className="text-sm font-black uppercase italic text-zinc-950 tracking-wider">{track.title}</h4>
                         </div>
                         <span className={`text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full ${
-                          isSelected ? 'bg-red-600 text-white' : 'bg-zinc-800 text-zinc-400'
+                          isSelected ? 'bg-blue-600 text-white' : 'bg-yellow-100 text-yellow-800 border border-yellow-300'
                         }`}>
                           {track.badge}
                         </span>
                       </div>
-                      <p className="text-xs text-zinc-400 leading-relaxed font-semibold mt-2">{track.description}</p>
+                      <p className="text-xs text-zinc-700 leading-relaxed font-medium mt-2">{track.description}</p>
                       {isSelected && (
-                        <div className="mt-3 flex items-center gap-1.5 text-[10px] font-black text-red-500 uppercase tracking-widest">
+                        <div className="mt-3 flex items-center gap-1.5 text-[10px] font-black text-blue-600 uppercase tracking-widest">
                           <span>Active Track</span>
-                          <ArrowRight className="w-3.5 h-3.5 animate-pulse" />
+                          <ArrowRight className="w-3.5 h-3.5" />
                         </div>
                       )}
                     </div>
@@ -323,20 +320,18 @@ export function PartnerInquirySection() {
 
           {/* RIGHT SIDE: Submissions form (Inquiry vs Partnership Proposal) */}
           <div className="lg:col-span-7">
-            <div className="p-8 md:p-10 bg-zinc-900 border border-zinc-805 rounded-[2rem] shadow-2xl relative">
-              <div className="absolute top-0 right-0 w-48 h-48 bg-red-600/5 blur-[50px] rounded-full pointer-events-none" />
-              
+            <div className="p-8 md:p-10 bg-white border border-zinc-200 rounded-[2rem] shadow-xl relative">
               {activeTab === 'inquiry' ? (
                 /* INQUIRY FORM */
                 <form onSubmit={submitInquiry} className="space-y-6">
-                  <div className="border-b border-zinc-800/80 pb-4 mb-6">
-                    <h3 className="text-2xl font-black uppercase italic text-white">General Inquiry Panel</h3>
-                    <p className="text-xs text-zinc-500 uppercase font-bold tracking-widest mt-1">Submit your training questions, corporate discount requests, or trial access inputs.</p>
+                  <div className="border-b border-zinc-200 pb-4 mb-6">
+                    <h3 className="text-2xl font-black uppercase italic text-zinc-950">General Inquiry Panel</h3>
+                    <p className="text-xs text-zinc-600 uppercase font-bold tracking-widest mt-1">Submit your training questions, corporate discount requests, or trial access inputs.</p>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-[10px] sm:text-xs font-black text-zinc-500 uppercase tracking-widest ml-1">Full Name *</label>
+                      <label className="text-[10px] sm:text-xs font-black text-zinc-700 uppercase tracking-widest ml-1">Full Name *</label>
                       <input
                         type="text"
                         name="name"
@@ -344,11 +339,11 @@ export function PartnerInquirySection() {
                         value={inquiryForm.name}
                         onChange={handleInquiryChange}
                         placeholder="e.g. Rahul Sharma"
-                        className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 hover:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-red-600 rounded-xl transition-all text-sm font-semibold text-white placeholder-zinc-700"
+                        className="w-full px-4 py-3 bg-zinc-50 border border-zinc-300 hover:border-zinc-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 rounded-xl transition-all text-sm font-semibold text-zinc-950 placeholder-zinc-400"
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-[10px] sm:text-xs font-black text-zinc-500 uppercase tracking-widest ml-1">Phone Number *</label>
+                      <label className="text-[10px] sm:text-xs font-black text-zinc-700 uppercase tracking-widest ml-1">Phone Number *</label>
                       <input
                         type="tel"
                         name="phone"
@@ -356,14 +351,14 @@ export function PartnerInquirySection() {
                         value={inquiryForm.phone}
                         onChange={handleInquiryChange}
                         placeholder="e.g. +91 98765 43210"
-                        className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 hover:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-red-600 rounded-xl transition-all text-sm font-semibold text-white placeholder-zinc-700"
+                        className="w-full px-4 py-3 bg-zinc-50 border border-zinc-300 hover:border-zinc-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 rounded-xl transition-all text-sm font-semibold text-zinc-950 placeholder-zinc-400"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-[10px] sm:text-xs font-black text-zinc-500 uppercase tracking-widest ml-1">Email Address *</label>
+                      <label className="text-[10px] sm:text-xs font-black text-zinc-700 uppercase tracking-widest ml-1">Email Address *</label>
                       <input
                         type="email"
                         name="email"
@@ -371,16 +366,16 @@ export function PartnerInquirySection() {
                         value={inquiryForm.email}
                         onChange={handleInquiryChange}
                         placeholder="name@example.com"
-                        className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 hover:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-red-600 rounded-xl transition-all text-sm font-semibold text-white placeholder-zinc-700"
+                        className="w-full px-4 py-3 bg-zinc-50 border border-zinc-300 hover:border-zinc-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 rounded-xl transition-all text-sm font-semibold text-zinc-950 placeholder-zinc-400"
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-[10px] sm:text-xs font-black text-zinc-500 uppercase tracking-widest ml-1">Inquiry Type *</label>
+                      <label className="text-[10px] sm:text-xs font-black text-zinc-700 uppercase tracking-widest ml-1">Inquiry Type *</label>
                       <select
                         name="category"
                         value={inquiryForm.category}
                         onChange={handleInquiryChange}
-                        className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 hover:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-red-600 rounded-xl transition-all text-sm font-black uppercase text-zinc-400"
+                        className="w-full px-4 py-3 bg-zinc-50 border border-zinc-300 hover:border-zinc-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 rounded-xl transition-all text-sm font-black uppercase text-zinc-800"
                       >
                         <option value="General Inquiry">General Gym Inquiry</option>
                         <option value="15-Day Free Trial">15-Day Free Trial</option>
@@ -392,7 +387,7 @@ export function PartnerInquirySection() {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-[10px] sm:text-xs font-black text-zinc-500 uppercase tracking-widest ml-1">Your Message *</label>
+                    <label className="text-[10px] sm:text-xs font-black text-zinc-700 uppercase tracking-widest ml-1">Your Message *</label>
                     <textarea
                       name="message"
                       required
@@ -400,14 +395,14 @@ export function PartnerInquirySection() {
                       value={inquiryForm.message}
                       onChange={handleInquiryChange}
                       placeholder="Give us a brief description of what you are looking to achieve, or your query details..."
-                      className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 hover:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-red-600 rounded-xl transition-all text-sm font-semibold text-white placeholder-zinc-700"
+                      className="w-full px-4 py-3 bg-zinc-50 border border-zinc-300 hover:border-zinc-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 rounded-xl transition-all text-sm font-semibold text-zinc-950 placeholder-zinc-400"
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="w-full bg-red-600 hover:bg-red-700 text-white font-black uppercase tracking-widest text-xs py-4 px-6 rounded-xl transition-all duration-300 shadow-xl shadow-red-600/20 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-widest text-xs py-4 px-6 rounded-xl transition-all duration-300 shadow-xl shadow-blue-600/25 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
                   >
                     {submitting ? (
                       <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
@@ -422,17 +417,17 @@ export function PartnerInquirySection() {
               ) : (
                 /* PARTNER WITH US FORM */
                 <form onSubmit={submitPartner} className="space-y-6">
-                  <div className="border-b border-zinc-800/80 pb-4 mb-65">
-                    <h3 className="text-2xl font-black uppercase italic text-white flex items-center gap-2">
-                      <Handshake className="text-red-500 w-6 h-6 shrink-0" />
+                  <div className="border-b border-zinc-200 pb-4 mb-6">
+                    <h3 className="text-2xl font-black uppercase italic text-zinc-950 flex items-center gap-2">
+                      <Handshake className="text-blue-600 w-6 h-6 shrink-0" />
                       Partner Proposal Form
                     </h3>
-                    <p className="text-xs text-zinc-500 uppercase font-bold tracking-widest mt-1">Submit franchise proposals, equipment sales portfolios, or corporate package inquiries.</p>
+                    <p className="text-xs text-zinc-600 uppercase font-bold tracking-widest mt-1">Submit franchise proposals, equipment sales portfolios, or corporate package inquiries.</p>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-[10px] sm:text-xs font-black text-zinc-500 uppercase tracking-widest ml-1">Contact Name *</label>
+                      <label className="text-[10px] sm:text-xs font-black text-zinc-700 uppercase tracking-widest ml-1">Contact Name *</label>
                       <input
                         type="text"
                         name="name"
@@ -440,11 +435,11 @@ export function PartnerInquirySection() {
                         value={partnerForm.name}
                         onChange={handlePartnerChange}
                         placeholder="e.g. Vikram Malhotra"
-                        className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 hover:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-red-600 rounded-xl transition-all text-sm font-semibold text-white placeholder-zinc-700"
+                        className="w-full px-4 py-3 bg-zinc-50 border border-zinc-300 hover:border-zinc-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 rounded-xl transition-all text-sm font-semibold text-zinc-950 placeholder-zinc-400"
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-[10px] sm:text-xs font-black text-zinc-500 uppercase tracking-widest ml-1">Company / Organization *</label>
+                      <label className="text-[10px] sm:text-xs font-black text-zinc-700 uppercase tracking-widest ml-1">Company / Organization *</label>
                       <input
                         type="text"
                         name="company"
@@ -452,14 +447,14 @@ export function PartnerInquirySection() {
                         value={partnerForm.company}
                         onChange={handlePartnerChange}
                         placeholder="e.g. FitCorp India Pvt Ltd"
-                        className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 hover:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-red-600 rounded-xl transition-all text-sm font-semibold text-white placeholder-zinc-700"
+                        className="w-full px-4 py-3 bg-zinc-50 border border-zinc-300 hover:border-zinc-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 rounded-xl transition-all text-sm font-semibold text-zinc-950 placeholder-zinc-400"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
-                      <label className="text-[10px] sm:text-xs font-black text-zinc-500 uppercase tracking-widest ml-1">Direct Phone *</label>
+                      <label className="text-[10px] sm:text-xs font-black text-zinc-700 uppercase tracking-widest ml-1">Direct Phone *</label>
                       <input
                         type="tel"
                         name="phone"
@@ -467,11 +462,11 @@ export function PartnerInquirySection() {
                         value={partnerForm.phone}
                         onChange={handlePartnerChange}
                         placeholder="e.g. +91 99988 77766"
-                        className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 hover:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-red-600 rounded-xl transition-all text-sm font-semibold text-white placeholder-zinc-700"
+                        className="w-full px-4 py-3 bg-zinc-50 border border-zinc-300 hover:border-zinc-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 rounded-xl transition-all text-sm font-semibold text-zinc-950 placeholder-zinc-400"
                       />
                     </div>
                     <div className="space-y-1.5">
-                      <label className="text-[10px] sm:text-xs font-black text-zinc-500 uppercase tracking-widest ml-1">Business Email *</label>
+                      <label className="text-[10px] sm:text-xs font-black text-zinc-700 uppercase tracking-widest ml-1">Business Email *</label>
                       <input
                         type="email"
                         name="email"
@@ -479,18 +474,18 @@ export function PartnerInquirySection() {
                         value={partnerForm.email}
                         onChange={handlePartnerChange}
                         placeholder="partner@company.com"
-                        className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 hover:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-red-600 rounded-xl transition-all text-sm font-semibold text-white placeholder-zinc-700"
+                        className="w-full px-4 py-3 bg-zinc-50 border border-zinc-300 hover:border-zinc-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 rounded-xl transition-all text-sm font-semibold text-zinc-950 placeholder-zinc-400"
                       />
                     </div>
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-[10px] sm:text-xs font-black text-zinc-500 uppercase tracking-widest ml-1">Partnership Interest *</label>
+                    <label className="text-[10px] sm:text-xs font-black text-zinc-700 uppercase tracking-widest ml-1">Partnership Interest *</label>
                     <select
                       name="partnerType"
                       value={partnerForm.partnerType}
                       onChange={handlePartnerChange}
-                      className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 hover:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-red-600 rounded-xl transition-all text-sm font-black uppercase text-zinc-400"
+                      className="w-full px-4 py-3 bg-zinc-50 border border-zinc-300 hover:border-zinc-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 rounded-xl transition-all text-sm font-black uppercase text-zinc-800"
                     >
                       <option value="Franchise Partner">Franchise Program</option>
                       <option value="Corporate Wellness">Corporate Wellness</option>
@@ -500,7 +495,7 @@ export function PartnerInquirySection() {
                   </div>
 
                   <div className="space-y-1.5">
-                    <label className="text-[10px] sm:text-xs font-black text-zinc-500 uppercase tracking-widest ml-1">Proposal Details *</label>
+                    <label className="text-[10px] sm:text-xs font-black text-zinc-700 uppercase tracking-widest ml-1">Proposal Details *</label>
                     <textarea
                       name="proposal"
                       required
@@ -508,14 +503,14 @@ export function PartnerInquirySection() {
                       value={partnerForm.proposal}
                       onChange={handlePartnerChange}
                       placeholder="Outline your proposal details, timeline expectations, brand resources, or questions..."
-                      className="w-full px-4 py-3 bg-zinc-950 border border-zinc-800 hover:border-zinc-700 focus:outline-none focus:ring-2 focus:ring-red-600 rounded-xl transition-all text-sm font-semibold text-white placeholder-zinc-700"
+                      className="w-full px-4 py-3 bg-zinc-50 border border-zinc-300 hover:border-zinc-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 rounded-xl transition-all text-sm font-semibold text-zinc-950 placeholder-zinc-400"
                     />
                   </div>
 
                   <button
                     type="submit"
                     disabled={submitting}
-                    className="w-full bg-red-605 bg-red-600 hover:bg-red-700 text-white font-black uppercase tracking-widest text-xs py-4 px-6 rounded-xl transition-all duration-300 shadow-xl shadow-red-600/20 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
+                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-widest text-xs py-4 px-6 rounded-xl transition-all duration-300 shadow-xl shadow-blue-600/25 disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
                   >
                     {submitting ? (
                       <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />

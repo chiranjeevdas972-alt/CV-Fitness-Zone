@@ -7,7 +7,45 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
-  app.use(express.json());
+  // Security Headers Middleware
+  app.use((req, res, next) => {
+    res.setHeader("X-Content-Type-Options", "nosniff");
+    res.setHeader("X-Frame-Options", "SAMEORIGIN");
+    res.setHeader("X-XSS-Protection", "1; mode=block");
+    res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+    res.setHeader("Permissions-Policy", "camera=(self), microphone=(), geolocation=()");
+    // Strict Transport Security (HSTS)
+    res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+    next();
+  });
+
+  // Body parser with size limits to prevent Denial of Service
+  app.use(express.json({ limit: "1mb" }));
+
+  // In-memory Rate Limiting for API routes
+  const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+  const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+  const MAX_REQUESTS_PER_WINDOW = 100; // 100 req/min per IP
+
+  app.use("/api", (req, res, next) => {
+    const ip = req.ip || req.socket.remoteAddress || "unknown_ip";
+    const now = Date.now();
+    const clientRecord = rateLimitMap.get(ip);
+
+    if (!clientRecord || now > clientRecord.resetTime) {
+      rateLimitMap.set(ip, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
+      return next();
+    }
+
+    clientRecord.count += 1;
+    if (clientRecord.count > MAX_REQUESTS_PER_WINDOW) {
+      return res.status(429).json({
+        error: "Too many requests. Rate limit exceeded. Please try again in 1 minute."
+      });
+    }
+
+    next();
+  });
 
   // Initialize the Google Gemini GenAI Client on the Server
   const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
