@@ -232,10 +232,6 @@ export function Shop() {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 sm:p-8 rounded-[2.5rem] border border-zinc-200 shadow-md">
         <div>
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-yellow-100 border border-yellow-300 rounded-full text-yellow-800 text-[10px] font-black uppercase tracking-[0.2em] mb-2 shadow-sm">
-            <Zap className="w-3 h-3 text-yellow-600 fill-yellow-500" />
-            Official Gym Supplement Store
-          </div>
           <h1 className="text-3xl font-black uppercase italic tracking-tighter text-zinc-950">
             Supplement <span className="text-blue-600">Zone</span>
           </h1>
@@ -268,15 +264,6 @@ export function Shop() {
             )}
           >
             Loss
-          </button>
-          <button
-            onClick={() => updateCategory('recovery')}
-            className={cn(
-              "px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all whitespace-nowrap cursor-pointer",
-              selectedCategory === 'recovery' ? "bg-blue-600 text-white shadow-md" : "text-zinc-600 hover:text-zinc-950"
-            )}
-          >
-            Recovery
           </button>
         </div>
       </div>

@@ -178,10 +178,6 @@ export function PartnerInquirySection() {
         
         {/* Header Title Grid */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-yellow-100 border border-yellow-300 rounded-full text-yellow-800 text-xs font-black uppercase tracking-[0.2em] mb-4 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-yellow-600 fill-yellow-500" />
-            Collaboration & Inquiries
-          </div>
           <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase italic text-zinc-950">
             <span className="text-yellow-500">Partner</span> With Us & <span className="text-blue-600">Get in Touch</span>
           </h2>

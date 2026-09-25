@@ -12,7 +12,6 @@ import {
   Share2, 
   X, 
   CheckCircle2, 
-  Sparkles,
   BookOpen
 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -181,10 +180,6 @@ export function FitnessTipsSection() {
         
         {/* Section Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-yellow-100 border border-yellow-300 rounded-full text-yellow-800 text-xs font-black uppercase tracking-[0.2em] mb-4 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-yellow-600 fill-yellow-500" />
-            Daily Member Knowledge
-          </div>
           <h2 className="text-4xl md:text-6xl font-black tracking-tighter uppercase italic text-zinc-950">
             Daily <span className="text-blue-600">Fitness Tips</span> & <span className="text-yellow-500">Guides</span>
           </h2>
