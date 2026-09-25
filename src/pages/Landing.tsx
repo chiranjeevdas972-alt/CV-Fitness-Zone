@@ -152,16 +152,11 @@ export function Landing() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-yellow-100 border border-yellow-300 rounded-full text-yellow-800 text-xs font-black uppercase tracking-[0.2em] mb-6 shadow-sm">
-                <Zap className="w-3.5 h-3.5 text-yellow-600 fill-yellow-500" />
-                Modern Fitness Intelligence Platform
-              </div>
-
               <h1 className="text-4xl sm:text-6xl md:text-8xl font-black tracking-tighter uppercase italic leading-[0.95] sm:leading-[0.9] mb-6 sm:mb-8 text-zinc-950">
                 Elevate Your <span className="text-blue-600">Fitness</span> <span className="text-yellow-500">Business</span>
               </h1>
               <p className="text-base sm:text-xl text-zinc-700 font-semibold leading-relaxed mb-8 sm:mb-10 max-w-2xl mx-auto px-2">
-                The all-in-one platform to manage members, trainers, attendance, and payments with professional precision.
+                The All-In-One Platform To Manage Members, Trainers, Attendance, And Payments With Professional Precision.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4 px-4 sm:px-0">
                 <Link to="/signup" className="w-full sm:w-auto">
