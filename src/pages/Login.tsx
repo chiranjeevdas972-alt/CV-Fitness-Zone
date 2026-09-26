@@ -7,7 +7,7 @@ import {
   sendPasswordResetEmail
 } from 'firebase/auth';
 import { auth } from '../lib/firebase';
-import { Dumbbell, Mail, Lock, ArrowRight, ArrowLeft, ShieldCheck, AlertTriangle } from 'lucide-react';
+import { Dumbbell, Mail, Lock, ArrowRight, ArrowLeft, AlertTriangle } from 'lucide-react';
 import { toast } from 'sonner';
 
 export function Login() {
@@ -145,10 +145,6 @@ export function Login() {
         <div className="lg:col-span-7 order-2 lg:order-1 flex flex-col justify-between bg-white border border-zinc-200 rounded-3xl sm:rounded-[2.5rem] p-6 sm:p-10 md:p-12 lg:p-16 relative overflow-hidden min-h-[380px] lg:min-h-[640px] shadow-xl">
           {/* Top Segment: Headline & Brand Identity */}
           <div className="relative z-10 space-y-4 sm:space-y-5">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-yellow-100 border border-yellow-300 rounded-full text-[10px] font-black uppercase tracking-[0.25em] text-yellow-800 shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse" />
-              India's Digital Gym Ecosystem
-            </span>
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black uppercase tracking-tighter italic text-zinc-950 leading-none">
               Power. Passion. <br />
               <span className="text-blue-600">Victory</span> <span className="text-yellow-500">Legacy.</span>
@@ -220,7 +216,6 @@ export function Login() {
                 <Dumbbell className="w-8 h-8 text-white" />
               </div>
               <h2 className="text-3xl font-black text-zinc-950 tracking-tighter uppercase italic">C Vidya Fitness Zone</h2>
-              <p className="text-blue-600 mt-1.5 font-black text-xs uppercase tracking-widest">Commitment to Victory</p>
             </div>
 
             <form onSubmit={handleEmailLogin} className="space-y-6">
@@ -324,11 +319,6 @@ export function Login() {
               Google
             </button>
 
-            {/* End-to-End Enterprise Encryption Security Seal */}
-            <div className="flex items-center justify-center gap-2 pt-2 text-[10px] font-bold text-zinc-600 uppercase tracking-widest">
-              <ShieldCheck className="w-4 h-4 text-blue-600" />
-              <span>256-Bit SSL/TLS Encrypted Authentication</span>
-            </div>
 
             <p className="text-center text-xs text-zinc-600 font-bold uppercase tracking-wider">
               Don't have an account?{' '}

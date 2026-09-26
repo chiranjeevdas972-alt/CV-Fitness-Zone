@@ -287,6 +287,7 @@ export function Landing() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
+                id: "starter",
                 name: "Starter",
                 price: "1,499",
                 period: "/month",
@@ -301,6 +302,7 @@ export function Landing() {
                 popular: false
               },
               {
+                id: "victory-pro",
                 name: "Victory Pro",
                 price: "12,999",
                 period: "/year",
@@ -317,6 +319,7 @@ export function Landing() {
                 popular: true
               },
               {
+                id: "enterprise",
                 name: "Enterprise",
                 price: "Custom",
                 period: "",
@@ -369,17 +372,19 @@ export function Landing() {
                   ))}
                 </ul>
 
-                <Button 
-                  variant={plan.popular ? "primary" : "outline"} 
-                  className={cn(
-                    "w-full py-6 uppercase tracking-widest text-xs font-black rounded-2xl transition-all cursor-pointer",
-                    plan.popular 
-                      ? "bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/25" 
-                      : "border-zinc-300 hover:border-blue-600 hover:text-blue-600 text-zinc-900 bg-white"
-                  )}
-                >
-                  {plan.name === 'Enterprise' ? 'Contact Sales' : 'Get Started'}
-                </Button>
+                <Link to={`/onboarding?plan=${plan.id}`} className="block w-full">
+                  <Button 
+                    variant={plan.popular ? "primary" : "outline"} 
+                    className={cn(
+                      "w-full py-6 uppercase tracking-widest text-xs font-black rounded-2xl transition-all cursor-pointer",
+                      plan.popular 
+                        ? "bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/25" 
+                        : "border-zinc-300 hover:border-blue-600 hover:text-blue-600 text-zinc-900 bg-white"
+                    )}
+                  >
+                    {plan.name === 'Enterprise' ? 'Contact Sales' : 'Get Started'}
+                  </Button>
+                </Link>
               </motion.div>
             ))}
           </div>
