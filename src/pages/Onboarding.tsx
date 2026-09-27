@@ -153,6 +153,10 @@ export function Onboarding() {
   ]);
 
   useEffect(() => {
+    document.documentElement.classList.remove('dark');
+  }, []);
+
+  useEffect(() => {
     if (planQuery && ['starter', 'victory-pro', 'enterprise'].includes(planQuery)) {
       setSelectedPlan(planQuery);
     }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { 
   createUserWithEmailAndPassword, 
@@ -16,6 +16,10 @@ export function Signup() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.documentElement.classList.remove('dark');
+  }, []);
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();

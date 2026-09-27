@@ -6,7 +6,10 @@ import { GoogleGenAI } from "@google/genai";
 
 async function startServer() {
   const app = express();
-  const PORT = Number(process.env.PORT) || 3000;
+  const isProd = process.env.NODE_ENV === "production";
+  const PORT = isProd 
+    ? (process.env.PORT ? Number(process.env.PORT) : 3000)
+    : (process.env.DEFAULT_APP_PORT ? Number(process.env.DEFAULT_APP_PORT) : 3000);
 
   // Security Headers Middleware
   app.use((req, res, next) => {
@@ -203,7 +206,7 @@ async function startServer() {
   const distPath = path.join(process.cwd(), 'dist');
   const distIndex = path.join(distPath, 'index.html');
 
-  if (process.env.NODE_ENV === "production" && fs.existsSync(distIndex)) {
+  if ((isProd || fs.existsSync(distIndex)) && process.env.NODE_ENV !== "development") {
     console.log("Serving production build from dist...");
     app.use(express.static(distPath));
     app.get('*', (req, res) => {
