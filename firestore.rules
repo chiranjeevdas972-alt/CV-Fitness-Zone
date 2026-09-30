@@ -70,33 +70,61 @@ service cloud.firestore {
       );
     }
 
-    // --- Entity Validations ---
+    // --- Entity Validations for Ethical Hacking Defense ---
 
     function isValidUser(data) {
       return data != null &&
              data.get('uid', '') == request.auth.uid &&
              data.get('role', '') is string &&
              data.get('gymId', '') is string &&
-             data.get('gymId', '').size() > 0;
+             data.get('gymId', '').size() > 0 &&
+             data.get('gymId', '').size() <= 100;
     }
 
     function isValidMember(data) {
       return data != null &&
-             data.get('name', '') is string && data.get('name', '').size() > 0 &&
-             data.get('gymId', '') is string && data.get('gymId', '').size() > 0;
+             data.get('name', '') is string && data.get('name', '').size() > 0 && data.get('name', '').size() <= 150 &&
+             data.get('gymId', '') is string && data.get('gymId', '').size() > 0 && data.get('gymId', '').size() <= 100;
     }
 
     function isValidAnnouncement(data) {
       return data != null &&
-             data.get('title', '') is string && data.get('title', '').size() > 0 &&
-             data.get('gymId', '') is string && data.get('gymId', '').size() > 0;
+             data.get('title', '') is string && data.get('title', '').size() > 0 && data.get('title', '').size() <= 200 &&
+             data.get('gymId', '') is string && data.get('gymId', '').size() > 0 && data.get('gymId', '').size() <= 100;
+    }
+
+    function isValidPayment(data) {
+      return data != null &&
+             (!('amount' in data) || (data.amount is number && data.amount >= 0 && data.amount <= 10000000));
+    }
+
+    function isValidInquiry(data) {
+      return data != null &&
+             data.get('name', '') is string && data.get('name', '').size() > 0 && data.get('name', '').size() <= 100 &&
+             data.get('email', '') is string && data.get('email', '').size() <= 150 &&
+             (!('phone' in data) || (data.phone is string && data.phone.size() <= 30)) &&
+             (!('message' in data) || (data.message is string && data.message.size() <= 2000));
+    }
+
+    function isValidContactMessage(data) {
+      return data != null &&
+             data.get('name', '') is string && data.get('name', '').size() > 0 && data.get('name', '').size() <= 100 &&
+             data.get('email', '') is string && data.get('email', '').size() <= 150 &&
+             (!('phone' in data) || (data.phone is string && data.phone.size() <= 30)) &&
+             (!('message' in data) || (data.message is string && data.message.size() <= 2000));
     }
 
     // --- Rules ---
 
     match /users/{uid} {
       allow read, write: if isBypassUser();
-      allow get, write: if isOwner(uid);
+      allow get: if isOwner(uid) || isAdmin();
+      allow create: if isOwner(uid) && isValidUser(request.resource.data);
+      // Privilege Escalation Prevention: Non-admins cannot alter their role
+      allow update: if (isVerifiedUser() && isAdmin()) || 
+                    (isOwner(uid) && isValidUser(request.resource.data) && 
+                     (!('role' in request.resource.data) || request.resource.data.role == resource.data.get('role', '')));
+      allow delete: if isVerifiedUser() && isAdmin();
       allow list: if isAdmin();
     }
 
@@ -124,7 +152,8 @@ service cloud.firestore {
     match /payments/{paymentId} {
       allow read, write: if isBypassUser();
       allow get, list: if isSignedIn();
-      allow write: if isVerifiedUser() && (isAdmin() || isTrainer());
+      // Negative payment prevention
+      allow write: if isVerifiedUser() && (isAdmin() || isTrainer()) && isValidPayment(request.resource.data);
     }
 
     match /attendance/{attendanceId} {
@@ -156,12 +185,12 @@ service cloud.firestore {
     match /inventory/{id} {
       allow read, write: if isBypassUser();
       allow get, list: if isSignedIn();
-      allow create, update: if isVerifiedUser() && isAdmin() && (id is string && id.size() > 0);
+      allow create, update: if isVerifiedUser() && isAdmin() && (id is string && id.size() > 0 && id.size() <= 100);
       allow delete: if isVerifiedUser() && isAdmin();
     }
 
     match /inquiries/{id} {
-      allow create: if true;
+      allow create: if isValidInquiry(request.resource.data);
       allow read, update, delete: if isBypassUser() || isAdmin() || isStaff();
     }
 
@@ -216,11 +245,13 @@ service cloud.firestore {
     }
 
     match /notifications/{id} {
-      allow read, write: if isBypassUser() || isSignedIn();
+      allow read: if isBypassUser() || isSignedIn();
+      allow create, update: if isBypassUser() || (isVerifiedUser() && (isAdmin() || isStaff()));
+      allow delete: if isBypassUser() || (isVerifiedUser() && isAdmin());
     }
 
     match /contactMessages/{id} {
-      allow create: if true;
+      allow create: if isValidContactMessage(request.resource.data);
       allow read, update, delete: if isBypassUser() || isAdmin() || isStaff();
     }
   }

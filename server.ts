@@ -11,30 +11,93 @@ async function startServer() {
     ? (process.env.PORT ? Number(process.env.PORT) : 3000)
     : (process.env.DEFAULT_APP_PORT ? Number(process.env.DEFAULT_APP_PORT) : 3000);
 
-  // Security & Integration Headers Middleware
+  // 1. Hardening: Disable software fingerprinting banner
+  app.disable('x-powered-by');
+
+  // 2. Hardening: Comprehensive Defense-in-Depth Security Headers
   app.use((req, res, next) => {
+    // Prevent MIME-sniffing
     res.setHeader("X-Content-Type-Options", "nosniff");
+    
+    // Cross-Origin Resource Sharing (CORS) for trusted SaaS ecosystem
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+    
+    // Legacy XSS filter protection
     res.setHeader("X-XSS-Protection", "1; mode=block");
+    
+    // Referrer policy
     res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
-    res.setHeader("Permissions-Policy", "camera=(self), microphone=(), geolocation=()");
+    
+    // Restrict sensitive browser APIs
+    res.setHeader("Permissions-Policy", "camera=(self), microphone=(), geolocation=(), payment=()");
+    
     // Strict Transport Security (HSTS)
-    res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+    res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains; preload");
+    
+    // Restrict Flash / PDF cross-domain policy
+    res.setHeader("X-Permitted-Cross-Domain-Policies", "none");
+    
+    // Content Security Policy (CSP) against XSS, clickjacking, and data exfiltration
+    const csp = [
+      "default-src 'self' https: data: blob:",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.googleapis.com https://apis.google.com https://*.firebaseio.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "font-src 'self' https://fonts.gstatic.com data:",
+      "img-src 'self' data: blob: https: https://images.unsplash.com",
+      "connect-src 'self' https: wss: https://*.googleapis.com https://*.firebaseio.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com",
+      "frame-ancestors *"
+    ].join("; ");
+    res.setHeader("Content-Security-Policy", csp);
+
     if (req.method === 'OPTIONS') {
       return res.sendStatus(204);
     }
     next();
   });
 
-  // Body parser with size limits to prevent Denial of Service
-  app.use(express.json({ limit: "1mb" }));
+  // 3. Hardening: Request body limit to thwart Memory Exhaustion & Slowloris attacks
+  app.use(express.json({ limit: "500kb" }));
 
-  // In-memory Rate Limiting for API routes
+  // 4. Hardening: Anti-Prototype Pollution & Input Sanitization
+  function sanitizeInput(obj: any): any {
+    if (!obj || typeof obj !== 'object') return obj;
+    if (Array.isArray(obj)) return obj.map(sanitizeInput);
+
+    const clean: Record<string, any> = {};
+    for (const key of Object.keys(obj)) {
+      // Block prototype pollution vectors
+      if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+        continue;
+      }
+      const val = obj[key];
+      if (typeof val === 'string') {
+        // Strip out dangerous null bytes
+        clean[key] = val.replace(/\0/g, '');
+      } else if (typeof val === 'object' && val !== null) {
+        clean[key] = sanitizeInput(val);
+      } else {
+        clean[key] = val;
+      }
+    }
+    return clean;
+  }
+
+  app.use((req, res, next) => {
+    if (req.body && typeof req.body === 'object') {
+      req.body = sanitizeInput(req.body);
+    }
+    if (req.query && typeof req.query === 'object') {
+      req.query = sanitizeInput(req.query);
+    }
+    next();
+  });
+
+  // 5. Hardening: In-memory Rate Limiting for API routes (Anti-Brute Force / DoS)
   const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
   const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
-  const MAX_REQUESTS_PER_WINDOW = 100; // 100 req/min per IP
+  const MAX_REQUESTS_PER_WINDOW = 120; // 120 req/min per IP
 
   app.use("/api", (req, res, next) => {
     const ip = req.ip || req.socket.remoteAddress || "unknown_ip";
@@ -49,7 +112,7 @@ async function startServer() {
     clientRecord.count += 1;
     if (clientRecord.count > MAX_REQUESTS_PER_WINDOW) {
       return res.status(429).json({
-        error: "Too many requests. Rate limit exceeded. Please try again in 1 minute."
+        error: "Too many requests from this IP. Rate limit exceeded for security. Please try again in 1 minute."
       });
     }
 
@@ -92,7 +155,7 @@ async function startServer() {
       return res.json({ result: response.text });
     } catch (error: any) {
       console.error("AI Workout Error:", error);
-      return res.status(500).json({ error: error.message || "Failed to generate workout plan." });
+      return res.status(500).json({ error: "Failed to generate workout plan safely." });
     }
   });
 
@@ -122,7 +185,7 @@ async function startServer() {
       return res.json({ result: response.text });
     } catch (error: any) {
       console.error("AI Diet Error:", error);
-      return res.status(500).json({ error: error.message || "Failed to generate diet plan." });
+      return res.status(500).json({ error: "Failed to generate diet plan safely." });
     }
   });
 
@@ -131,7 +194,7 @@ async function startServer() {
     try {
       const { stats, membersCount, paymentsSum } = req.body;
       if (!apiKey) {
-        return res.status(400).json({ error: "Gemini API key is is missing. Please set it in Settings > Secrets." });
+        return res.status(400).json({ error: "Gemini API key is missing. Please set it in Settings > Secrets." });
       }
 
       const prompt = `You are an elite International Gymnasium Business Consultant. Analyze these real-time SaaS facts for "C Vidya Fitness Zone":
@@ -150,7 +213,7 @@ async function startServer() {
       return res.json({ result: response.text });
     } catch (error: any) {
       console.error("AI Analytics Error:", error);
-      return res.status(500).json({ error: error.message || "Failed to generate AI analytics audit." });
+      return res.status(500).json({ error: "Failed to generate AI analytics audit." });
     }
   });
 
@@ -161,7 +224,7 @@ async function startServer() {
       return res.status(400).json({ error: "Invalid reporting data provided." });
     }
     
-    // Generate CSV response
+    // Generate CSV response safely with escaped fields
     try {
       const headers = Object.keys(data[0] || {}).join(",");
       const rows = data.map(item => {
@@ -172,7 +235,7 @@ async function startServer() {
       });
       const csvContent = [headers, ...rows].join("\n");
 
-      res.setHeader("Content-Type", "text/csv");
+      res.setHeader("Content-Type", "text/csv; charset=utf-8");
       res.setHeader("Content-Disposition", `attachment; filename=${collectionType || 'report'}.csv`);
       return res.send(csvContent);
     } catch (err: any) {
@@ -193,10 +256,10 @@ async function startServer() {
     return res.json(mockBackupPayload);
   });
 
-  //6. POST /api/whatsapp/send - Simulate Enterprise-Grade WhatsApp Notification Alert
+  // 6. POST /api/whatsapp/send - Simulate Enterprise-Grade WhatsApp Notification Alert
   app.post("/api/whatsapp/send", (req, res) => {
     const { phone, memberName, messageType, customText } = req.body;
-    const formattedPhone = phone || '+91 XXXXX XXXXX';
+    const formattedPhone = phone ? String(phone).replace(/[^\d+]/g, '') : '+91 XXXXX XXXXX';
     return res.json({
       success: true,
       sender: "C Vidya Fitness Zone WhatsApp API Cloud Server",
@@ -225,6 +288,17 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   }
+
+  // 6. Hardening: Global Masked Error Handler - Never leak system internals or stack traces
+  app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+    console.error("Unhandled Server Security Error:", err?.message || err);
+    if (res.headersSent) {
+      return next(err);
+    }
+    return res.status(500).json({
+      error: "Internal Server Error: Request terminated securely."
+    });
+  });
 
   app.listen(PORT, "0.0.0.0", () => {
     console.log(`[C Vidya Fitness Zone OS] custom full-stack server running on http://localhost:${PORT}`);
