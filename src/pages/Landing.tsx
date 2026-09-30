@@ -10,6 +10,7 @@ import { FitnessTipsSection } from '../components/FitnessTipsSection';
 import { DPDPPrivacyModal } from '../components/DPDPPrivacyModal';
 import gymMenTraining from '../assets/images/gym_men_training_1790264975329.jpg';
 import gymWomenTraining from '../assets/images/gym_women_training_1790264993675.jpg';
+import { CVidyaIcon } from '../components/CVidyaLogo';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -40,8 +41,8 @@ export function Landing() {
       <nav className="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-md border-b border-zinc-200/80 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-md shadow-blue-600/25 shrink-0">
-              <Dumbbell className="text-white w-6 h-6" />
+            <div className="w-10 h-10 bg-blue-600 rounded-xl p-2 flex items-center justify-center shadow-md shadow-blue-600/25 shrink-0">
+              <CVidyaIcon className="w-full h-full" variant="white" />
             </div>
             <span className="text-lg sm:text-2xl font-black tracking-tighter uppercase italic text-zinc-950 truncate max-w-[200px] sm:max-w-none">
               C Vidya Fitness Zone
@@ -439,8 +440,8 @@ export function Landing() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-12">
           <div className="space-y-6 text-center md:text-left">
             <div className="flex items-center gap-2 justify-center md:justify-start">
-              <div className="w-8 h-8 bg-blue-600/10 rounded-lg flex items-center justify-center">
-                <Dumbbell className="text-blue-600 w-5 h-5" />
+              <div className="w-8 h-8 rounded-lg flex items-center justify-center p-1">
+                <CVidyaIcon className="w-full h-full" variant="original" />
               </div>
               <span className="text-xl font-black tracking-tighter uppercase italic text-zinc-950 md:tracking-widest">C Vidya Fitness Zone</span>
             </div>

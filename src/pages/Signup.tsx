@@ -7,7 +7,8 @@ import {
 } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
-import { Dumbbell, Mail, Lock, User, ArrowRight, ArrowLeft } from 'lucide-react';
+import { Mail, Lock, User, ArrowRight, ArrowLeft } from 'lucide-react';
+import { CVidyaIcon } from '../components/CVidyaLogo';
 import { toast } from 'sonner';
 
 export function Signup() {
@@ -52,57 +53,71 @@ export function Signup() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-white text-zinc-900 p-4">
-      <div className="w-full max-w-md mb-4">
+    <div className="min-h-screen bg-slate-50/70 text-zinc-900 flex flex-col justify-between py-6 sm:py-8 lg:py-10 px-4 sm:px-6">
+      {/* Top Header Row with Only Arrow Icon Button */}
+      <div className="max-w-md mx-auto w-full flex items-center justify-between mb-4">
         <button 
+          type="button"
           onClick={() => navigate('/')}
-          className="inline-flex items-center gap-2 text-zinc-900 hover:text-blue-600 transition-colors font-black uppercase tracking-widest text-xs px-4 py-2 rounded-full bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 cursor-pointer"
+          aria-label="Back to home"
+          title="Back to home"
+          className="w-10 h-10 inline-flex items-center justify-center text-zinc-700 hover:text-blue-600 bg-white hover:bg-zinc-100 border border-zinc-200/90 rounded-full shadow-sm hover:shadow transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 cursor-pointer group"
         >
-          <ArrowLeft className="w-4 h-4 text-zinc-900" />
-          Back to Home
+          <ArrowLeft className="w-5 h-5 transition-transform duration-200 group-hover:-translate-x-0.5" />
         </button>
-      </div>
-      <div className="w-full max-w-md space-y-8 bg-white p-8 rounded-3xl border border-zinc-200 shadow-2xl">
-        <div className="text-center">
-          <div className="inline-flex items-center justify-center p-3.5 bg-blue-600 rounded-2xl mb-4 shadow-lg shadow-blue-600/25">
-            <Dumbbell className="w-8 h-8 text-white" />
+
+        <div className="flex items-center gap-2 select-none">
+          <div className="w-6 h-6 flex items-center justify-center">
+            <CVidyaIcon className="w-full h-full" variant="original" />
           </div>
-          <h2 className="text-3xl font-black text-zinc-950 uppercase italic tracking-tight">Join C Vidya Fitness</h2>
-          <p className="text-blue-600 mt-1.5 font-black text-xs uppercase tracking-widest">Start your victory journey today</p>
+          <span className="text-xs font-black uppercase tracking-wider text-zinc-600">
+            C Vidya
+          </span>
+        </div>
+      </div>
+
+      {/* Main Signup Card */}
+      <div className="w-full max-w-md mx-auto my-auto space-y-6 bg-white p-6 sm:p-8 rounded-3xl border border-zinc-200/90 shadow-lg">
+        <div className="text-center">
+          <div className="w-14 h-14 mx-auto rounded-2xl bg-blue-50 border border-blue-100/90 p-2.5 flex items-center justify-center shadow-sm mb-3">
+            <CVidyaIcon className="w-full h-full" variant="original" />
+          </div>
+          <h2 className="text-2xl font-black text-zinc-950 uppercase italic tracking-tight">Join C Vidya Fitness</h2>
+          <p className="text-blue-600 mt-1 font-bold text-xs uppercase tracking-wider">Start your victory journey today</p>
         </div>
 
-        <form onSubmit={handleSignup} className="space-y-6">
-          <div className="space-y-4">
+        <form onSubmit={handleSignup} className="space-y-4">
+          <div className="space-y-3">
             <div className="relative group">
-              <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400 group-focus-within:text-blue-600 transition-colors" />
+              <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-blue-600 transition-colors" />
               <input
                 type="text"
                 placeholder="Full Name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                className="w-full pl-11 pr-4 py-3 bg-zinc-50 border border-zinc-300 hover:border-zinc-400 rounded-xl text-zinc-950 placeholder-zinc-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all font-semibold text-sm"
+                className="w-full pl-10 pr-4 py-2.5 bg-zinc-50/80 border border-zinc-300 hover:border-zinc-400 rounded-xl text-zinc-950 placeholder-zinc-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all font-medium text-sm"
                 required
               />
             </div>
             <div className="relative group">
-              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400 group-focus-within:text-blue-600 transition-colors" />
+              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-blue-600 transition-colors" />
               <input
                 type="email"
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full pl-11 pr-4 py-3 bg-zinc-50 border border-zinc-300 hover:border-zinc-400 rounded-xl text-zinc-950 placeholder-zinc-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all font-semibold text-sm"
+                className="w-full pl-10 pr-4 py-2.5 bg-zinc-50/80 border border-zinc-300 hover:border-zinc-400 rounded-xl text-zinc-950 placeholder-zinc-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all font-medium text-sm"
                 required
               />
             </div>
             <div className="relative group">
-              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-zinc-400 group-focus-within:text-blue-600 transition-colors" />
+              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-400 group-focus-within:text-blue-600 transition-colors" />
               <input
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-11 pr-4 py-3 bg-zinc-50 border border-zinc-300 hover:border-zinc-400 rounded-xl text-zinc-950 placeholder-zinc-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all font-semibold text-sm"
+                className="w-full pl-10 pr-4 py-2.5 bg-zinc-50/80 border border-zinc-300 hover:border-zinc-400 rounded-xl text-zinc-950 placeholder-zinc-400 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all font-medium text-sm"
                 required
               />
             </div>
@@ -111,19 +126,23 @@ export function Signup() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex items-center justify-center gap-2 py-3.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-black uppercase tracking-widest text-xs rounded-xl transition-all duration-200 shadow-xl shadow-blue-600/25 disabled:opacity-50 disabled:cursor-not-allowed group cursor-pointer"
+            className="w-full flex items-center justify-center gap-2 py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs uppercase tracking-wider rounded-xl transition-all duration-200 shadow-md shadow-blue-600/20 disabled:opacity-50 disabled:cursor-not-allowed group cursor-pointer"
           >
             {loading ? 'Creating account...' : 'Create Account'}
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
         </form>
 
-        <p className="text-center text-xs text-zinc-600 font-bold uppercase tracking-wider">
+        <p className="text-center text-xs text-zinc-600 font-medium">
           Already have an account?{' '}
-          <Link to="/login" className="text-blue-600 hover:text-blue-700 font-black transition-colors ml-1">
+          <Link to="/login" className="text-blue-600 hover:text-blue-700 font-bold transition-colors ml-1">
             Sign in
           </Link>
         </p>
+      </div>
+
+      <div className="max-w-md mx-auto w-full pt-4 mt-4 border-t border-zinc-200/60 text-center text-xs text-zinc-500">
+        <span>&copy; {new Date().getFullYear()} C Vidya Solutions. All rights reserved.</span>
       </div>
     </div>
   );

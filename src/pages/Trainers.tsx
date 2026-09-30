@@ -737,7 +737,7 @@ export function Trainers() {
                 <span className="text-violet-650 font-black text-sm">*</span>
               </div>
 
-              <div className="overflow-x-auto border border-zinc-250 dark:border-zinc-850 rounded-2xl bg-white dark:bg-zinc-950">
+              <div className="overflow-x-auto custom-scrollbar border border-zinc-250 dark:border-zinc-850 rounded-2xl bg-white dark:bg-zinc-950">
                 <table className="w-full border-collapse text-left text-xs min-w-[950px]">
                   <thead>
                     <tr className="bg-zinc-50 dark:bg-zinc-900 border-b border-zinc-200 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400 font-extrabold uppercase tracking-widest text-[10px]">
@@ -1099,8 +1099,8 @@ export function Trainers() {
             <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 shadow-sm">
               <h3 className="font-extrabold text-lg mb-6 border-b border-zinc-150 dark:border-zinc-850 pb-3">My Assigned Students</h3>
               
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse text-xs">
+              <div className="overflow-x-auto custom-scrollbar">
+                <table className="w-full text-left border-collapse text-xs min-w-[650px]">
                   <thead>
                     <tr className="bg-zinc-50 dark:bg-zinc-950 border-b border-zinc-100 dark:border-zinc-805 text-zinc-400 uppercase font-bold text-[10px] tracking-wider">
                       <th className="p-4">Student Trainee</th>

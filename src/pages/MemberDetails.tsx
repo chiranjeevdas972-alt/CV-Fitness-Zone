@@ -213,8 +213,8 @@ export function MemberDetails() {
               <h3 className="text-xl font-black uppercase italic">Payment History</h3>
               <CreditCard className="w-6 h-6 text-zinc-400" />
             </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+            <div className="overflow-x-auto custom-scrollbar">
+              <table className="w-full text-left border-collapse min-w-[500px]">
                 <thead>
                   <tr className="bg-zinc-50 dark:bg-zinc-800/50 border-b border-zinc-200 dark:border-zinc-800">
                     <th className="px-8 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">Date</th>

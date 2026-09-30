@@ -113,7 +113,7 @@ export function Attendance() {
           <h1 className="text-3xl font-bold tracking-tight">Attendance</h1>
           <p className="text-zinc-500 mt-1">Daily check-in logs for members.</p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap sm:flex-nowrap items-center gap-3">
           <input
             type="date"
             value={selectedDate}
@@ -198,7 +198,7 @@ export function Attendance() {
               </button>
             </div>
             
-            <div className="p-6 space-y-4 max-h-[60vh] overflow-y-auto">
+            <div className="p-6 space-y-4 max-h-[60vh] overflow-y-auto custom-scrollbar">
               {members.map(member => {
                 const isPresent = attendance.some(a => a.memberId === member.id);
                 return (

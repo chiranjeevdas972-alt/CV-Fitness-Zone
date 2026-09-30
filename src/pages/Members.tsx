@@ -1392,8 +1392,8 @@ Meera Patel,+91 9988776655,meera@example.com,25,Yearly`}
                   Download CSV
                 </Button>
               </div>
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse">
+              <div className="overflow-x-auto custom-scrollbar">
+                <table className="w-full text-left border-collapse min-w-[850px]">
                   <thead>
                     <tr className="bg-zinc-50 dark:bg-zinc-800/50 border-b border-zinc-100 dark:border-zinc-800 text-zinc-500 dark:text-zinc-400">
                       <th className="px-6 py-4 text-xs font-black uppercase tracking-widest pl-8">Name</th>

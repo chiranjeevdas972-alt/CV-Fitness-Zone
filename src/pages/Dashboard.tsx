@@ -279,7 +279,7 @@ export function Dashboard() {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {statCards.map((stat) => (
           <button
             key={stat.name}
@@ -400,12 +400,12 @@ export function Dashboard() {
 
       {/* Recent Members Table */}
       <div className="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-zinc-800 overflow-hidden shadow-sm">
-        <div className="p-8 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
-          <h3 className="text-xl font-black uppercase italic">New Joinings</h3>
+        <div className="p-5 sm:p-8 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
+          <h3 className="text-lg sm:text-xl font-black uppercase italic">New Joinings</h3>
           <Link to="/members" className="text-[10px] font-black uppercase tracking-widest text-red-500 hover:text-red-400">Manage Members</Link>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+        <div className="overflow-x-auto custom-scrollbar">
+          <table className="w-full text-left border-collapse min-w-[580px]">
             <thead>
               <tr className="bg-zinc-50 dark:bg-zinc-800/50 border-b border-zinc-200 dark:border-zinc-800">
                 <th className="px-8 py-4 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">Member</th>

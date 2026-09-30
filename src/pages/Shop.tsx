@@ -303,7 +303,7 @@ export function Shop() {
               </button>
 
               {/* Content Section */}
-              <div className="flex-1 p-8 flex flex-col justify-between space-y-6">
+              <div className="flex-1 p-5 sm:p-7 md:p-8 flex flex-col justify-between space-y-4 sm:space-y-6">
                 <div>
                   <div className="flex items-center gap-2 mb-3">
                     {product.category === 'gain' ? (
@@ -392,11 +392,11 @@ export function Shop() {
           <motion.div 
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            className="relative w-full max-w-3xl bg-white rounded-[2.5rem] overflow-hidden border border-zinc-200 shadow-2xl flex flex-col md:flex-row text-zinc-900"
+            className="relative w-full max-w-3xl max-h-[90dvh] overflow-y-auto custom-scrollbar bg-white rounded-3xl sm:rounded-[2.5rem] border border-zinc-200 shadow-2xl flex flex-col md:flex-row text-zinc-900"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Left Image Section inside modal */}
-            <div className="relative w-full md:w-[45%] h-64 md:h-[480px] overflow-hidden bg-zinc-50">
+            <div className="relative w-full md:w-[45%] h-56 sm:h-64 md:h-auto overflow-hidden bg-zinc-50 shrink-0">
               <img
                 src={selectedProduct.image}
                 alt={selectedProduct.name}
@@ -410,7 +410,7 @@ export function Shop() {
             </div>
 
             {/* Right Information Details inside modal */}
-            <div className="flex-1 p-8 flex flex-col justify-between space-y-6">
+            <div className="flex-1 p-5 sm:p-7 md:p-8 flex flex-col justify-between space-y-4 sm:space-y-6">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   {selectedProduct.category === 'gain' ? (

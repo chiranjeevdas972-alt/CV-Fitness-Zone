@@ -267,8 +267,8 @@ export function Payments() {
         <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 shadow-sm">
           <h2 className="text-lg font-bold border-b border-zinc-100 dark:border-zinc-800 pb-3 mb-4">Pending Collections Ledger</h2>
           
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-sm">
+          <div className="overflow-x-auto custom-scrollbar">
+            <table className="w-full text-left border-collapse text-sm min-w-[620px]">
               <thead>
                 <tr className="bg-zinc-50 dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800 text-xs font-black uppercase tracking-widest text-zinc-500">
                   <th className="p-4">Member Trainee</th>
@@ -332,8 +332,8 @@ export function Payments() {
             </div>
           </div>
 
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse text-sm">
+          <div className="overflow-x-auto custom-scrollbar">
+            <table className="w-full text-left border-collapse text-sm min-w-[680px]">
               <thead>
                 <tr className="bg-zinc-50 dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800 text-xs font-black uppercase tracking-widest text-zinc-500">
                   <th className="p-4">Member Name</th>

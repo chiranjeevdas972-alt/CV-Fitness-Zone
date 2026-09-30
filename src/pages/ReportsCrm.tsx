@@ -662,8 +662,8 @@ export function ReportsCrm() {
                   {/* Detailed Log Table */}
                   <div className="lg:col-span-8 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6">
                     <h3 className="text-sm font-black uppercase tracking-wider mb-4 border-b pb-2">Dynamic Attendance Log Sheets</h3>
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-left border-collapse text-xs">
+                    <div className="overflow-x-auto custom-scrollbar">
+                      <table className="w-full text-left border-collapse text-xs min-w-[550px]">
                         <thead>
                           <tr className="border-b border-zinc-200 dark:border-zinc-800 text-zinc-400">
                             <th className="py-2.5 font-bold uppercase">Member Name</th>
@@ -793,8 +793,8 @@ export function ReportsCrm() {
                   {/* Financial ledger details */}
                   <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6">
                     <h3 className="font-black uppercase tracking-wider mb-4 border-b pb-2">Recent Transaction Audit Database</h3>
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-left border-collapse">
+                    <div className="overflow-x-auto custom-scrollbar">
+                      <table className="w-full text-left border-collapse min-w-[550px]">
                         <thead>
                           <tr className="border-b border-zinc-200 dark:border-zinc-800 text-zinc-400">
                             <th className="py-2 font-bold uppercase">Payer Name</th>
@@ -832,8 +832,8 @@ export function ReportsCrm() {
                       <h3 className="font-black uppercase tracking-wider border-b pb-2">Supplement & Merch Sales ledger</h3>
                     </div>
 
-                    <div className="overflow-x-auto">
-                      <table className="w-full text-left border-collapse">
+                    <div className="overflow-x-auto custom-scrollbar">
+                      <table className="w-full text-left border-collapse min-w-[550px]">
                         <thead>
                           <tr className="border-b border-zinc-200 dark:border-zinc-800 text-zinc-400">
                             <th className="py-2 font-bold uppercase">Product Name</th>
@@ -1609,8 +1609,8 @@ export function ReportsCrm() {
 
           <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6">
             <h3 className="font-black uppercase tracking-wider mb-4 border-b pb-2">My Assigned Trainees Sheets</h3>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left">
+            <div className="overflow-x-auto custom-scrollbar">
+              <table className="w-full text-left min-w-[550px]">
                 <thead>
                   <tr className="border-b border-zinc-200 dark:border-zinc-800 text-zinc-400 uppercase">
                     <th className="py-2.5">Name</th>

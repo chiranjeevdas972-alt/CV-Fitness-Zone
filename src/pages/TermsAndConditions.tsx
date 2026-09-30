@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Dumbbell, ArrowLeft, Shield, Check, Mail, Phone, Calendar, Info } from 'lucide-react';
+import { CVidyaIcon } from '../components/CVidyaLogo';
 import { Button } from '../components/ui/Form';
 
 export function TermsAndConditions() {
@@ -33,20 +34,22 @@ export function TermsAndConditions() {
       {/* Header */}
       <header className="sticky top-0 z-50 bg-zinc-950/80 backdrop-blur-md border-b border-zinc-900/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="w-9 h-9 bg-red-600 rounded-lg flex items-center justify-center">
-              <Dumbbell className="text-white w-5 h-5" />
+          <Link to="/" className="flex items-center gap-2.5">
+            <div className="w-9 h-9 bg-blue-600 rounded-xl p-1.5 flex items-center justify-center shadow-md shadow-blue-600/25">
+              <CVidyaIcon className="w-full h-full" variant="white" />
             </div>
-            <span className="text-xl font-black tracking-tighter uppercase italic bg-gradient-to-r from-white to-zinc-400 bg-clip-text text-transparent">
+            <span className="text-xl font-black tracking-tighter uppercase italic text-white">
               C Vidya Fitness Zone
             </span>
           </Link>
           <button
+            type="button"
             onClick={() => navigate('/')}
-            className="flex items-center gap-2 text-zinc-400 hover:text-red-500 transition-colors font-bold uppercase tracking-widest text-xs"
+            aria-label="Back to home"
+            title="Back to home"
+            className="w-10 h-10 inline-flex items-center justify-center text-zinc-400 hover:text-white bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 rounded-full transition-colors cursor-pointer"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to Home
           </button>
         </div>
       </header>

@@ -829,8 +829,8 @@ export function AiZone() {
           <div className="lg:col-span-8 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 shadow-sm">
             <h3 className="text-lg font-bold border-b border-zinc-105 dark:border-zinc-800 pb-3 mb-4">Checked-In Logging History</h3>
             
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse text-sm">
+            <div className="overflow-x-auto custom-scrollbar">
+              <table className="w-full text-left border-collapse text-sm min-w-[500px]">
                 <thead>
                   <tr className="bg-zinc-50 dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800 text-xs font-bold text-zinc-500 uppercase tracking-widest">
                     <th className="p-3">Reference Date</th>
@@ -883,8 +883,8 @@ export function AiZone() {
           <div className="lg:col-span-8 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-805 rounded-3xl p-6 shadow-sm">
             <h3 className="text-lg font-bold border-b border-zinc-100 dark:border-zinc-800 pb-3 mb-4">Gym Dues / Receipts Ledger</h3>
 
-            <div className="overflow-x-auto">
-              <table className="w-full text-left font-medium border-collapse text-sm">
+            <div className="overflow-x-auto custom-scrollbar">
+              <table className="w-full text-left font-medium border-collapse text-sm min-w-[500px]">
                 <thead>
                   <tr className="bg-zinc-50 dark:bg-zinc-950 border-b border-zinc-200 dark:border-zinc-800 text-xs font-black uppercase tracking-widest text-zinc-500">
                     <th className="p-3 font-semibold">Date Paid</th>

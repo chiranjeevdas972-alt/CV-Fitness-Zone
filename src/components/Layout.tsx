@@ -42,6 +42,7 @@ import {
 import { useAuth } from '../contexts/AuthContext';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import { CVidyaIcon } from './CVidyaLogo';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -192,6 +193,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
     if (activeGroup) {
       setExpandedMenus(prev => ({ ...prev, [activeGroup.name]: true }));
     }
+
+    // Smoothly close sidebar on mobile upon navigation
+    setIsSidebarOpen(false);
   }, [location.pathname, location.search]);
 
   const handleSignOut = async () => {
@@ -221,8 +225,21 @@ export function Layout({ children }: { children: React.ReactNode }) {
       )}>
         <div className="h-full flex flex-col">
           {/* Logo Section */}
-          <div className="p-[22px] flex items-center bg-zinc-950 text-white select-none border-b border-zinc-800">
-            <h1 className="font-black text-base tracking-wide uppercase text-zinc-100 truncate" title={gymName || 'C Vidya Fitness Zone'}>{gymName || 'C Vidya Fitness Zone'}</h1>
+          <div className="p-4 sm:p-5 flex items-center justify-between bg-zinc-950 text-white select-none border-b border-zinc-800">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-8 h-8 rounded-lg bg-blue-600/20 border border-blue-500/30 p-1 flex items-center justify-center shrink-0">
+                <CVidyaIcon className="w-full h-full" variant="original" />
+              </div>
+              <h1 className="font-black text-sm sm:text-base tracking-wide uppercase text-zinc-100 truncate" title={gymName || 'C Vidya Fitness Zone'}>{gymName || 'C Vidya Fitness Zone'}</h1>
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsSidebarOpen(false)}
+              className="lg:hidden p-1.5 rounded-xl text-zinc-400 hover:text-white hover:bg-zinc-850 transition-colors ml-2 cursor-pointer shrink-0"
+              aria-label="Close menu"
+            >
+              <X className="w-5 h-5" />
+            </button>
           </div>
 
           {/* Navigation */}
@@ -369,16 +386,16 @@ export function Layout({ children }: { children: React.ReactNode }) {
       {/* Main Content */}
       <main className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
         {/* Header */}
-        <header className="h-16 sm:h-20 flex items-center justify-between px-4 sm:px-8 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-xl border-b border-zinc-200 dark:border-zinc-800 sticky top-0 z-30">
-          <div className="flex items-center gap-3 sm:gap-4">
+        <header className="h-16 sm:h-20 flex items-center justify-between px-4 sm:px-8 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl border-b border-zinc-200 dark:border-zinc-800 sticky top-0 z-30 pt-[env(safe-area-inset-top,0px)]">
+          <div className="flex items-center gap-3 sm:gap-4 min-w-0">
             <button 
-              className="lg:hidden p-2 sm:p-2.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl transition-colors cursor-pointer"
+              className="lg:hidden p-2 sm:p-2.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl transition-colors cursor-pointer shrink-0"
               onClick={() => setIsSidebarOpen(true)}
               aria-label="Open navigation menu"
             >
               <Menu className="w-5 h-5 sm:w-6 sm:h-6" />
             </button>
-            <h2 className="text-base sm:text-lg font-black uppercase italic tracking-tight truncate max-w-[200px] sm:max-w-none">
+            <h2 className="text-sm sm:text-base md:text-lg font-black uppercase italic tracking-tight truncate max-w-[170px] sm:max-w-xs md:max-w-none">
               {(() => {
                 const currentFullPath = location.pathname + location.search;
                 const matchedSubItem = navItems.flatMap(item => item.subItems || []).find(sub => sub.path === currentFullPath || sub.path === location.pathname);
@@ -389,7 +406,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
             </h2>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-4">
+          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
             <button
               onClick={() => setIsDarkMode(!isDarkMode)}
               className="p-2 sm:p-2.5 bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 rounded-xl transition-all duration-300 hover:rotate-12 cursor-pointer"
@@ -406,7 +423,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </div>
         </header>
 
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto p-3.5 sm:p-6 lg:p-8 custom-scrollbar pb-[calc(1.5rem+env(safe-area-inset-bottom,0px))]">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}

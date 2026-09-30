@@ -26,6 +26,7 @@ import {
   Layers
 } from 'lucide-react';
 import { Button } from '../components/ui/Form';
+import { CVidyaIcon } from '../components/CVidyaLogo';
 import { useAuth } from '../contexts/AuthContext';
 import { auth, db } from '../lib/firebase';
 import { createUserWithEmailAndPassword, updateProfile, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
@@ -336,8 +337,8 @@ export function Onboarding() {
       <header className="border-b border-zinc-200 bg-white sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-md shadow-blue-600/25 shrink-0 group-hover:scale-105 transition-transform">
-              <Dumbbell className="text-white w-6 h-6" />
+            <div className="w-10 h-10 bg-blue-600 rounded-xl p-2 flex items-center justify-center shadow-md shadow-blue-600/25 shrink-0 group-hover:scale-105 transition-transform">
+              <CVidyaIcon className="w-full h-full" variant="white" />
             </div>
             <div>
               <span className="text-lg sm:text-xl font-black tracking-tighter uppercase italic text-zinc-950 block">
@@ -349,12 +350,15 @@ export function Onboarding() {
             </div>
           </Link>
 
-          <Link to="/">
-            <Button variant="ghost" className="text-xs font-black uppercase tracking-wider text-zinc-700 hover:text-blue-600 hover:bg-zinc-100 flex items-center gap-1.5">
-              <ArrowLeft className="w-4 h-4" />
-              <span className="hidden sm:inline">Back to</span> Home
-            </Button>
-          </Link>
+          <button
+            type="button"
+            onClick={() => navigate('/')}
+            aria-label="Back to home"
+            title="Back to home"
+            className="w-10 h-10 inline-flex items-center justify-center text-zinc-700 hover:text-blue-600 bg-white hover:bg-zinc-100 border border-zinc-200 rounded-full shadow-sm hover:shadow transition-colors cursor-pointer"
+          >
+            <ArrowLeft className="w-4 h-4" />
+          </button>
         </div>
       </header>
 
